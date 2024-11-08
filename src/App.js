@@ -1,15 +1,16 @@
 import React from 'react';
-import './App.css';
+import Layout from './components/Layout';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
+import About from './components/About';
 
 function App() {
   return (
-    <div className="App">
+    <Layout>
       <Navbar />
       <Home />
-      {/* Your other components will go here */}
-    </div>
+      <About />
+    </Layout>
   );
 }
 
