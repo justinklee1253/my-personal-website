@@ -28,7 +28,7 @@ const Home = () => {
   const { text, isTypingComplete } = useTypewriter("Hi I'm Justin, a Software Engineer", 100);
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div id="home" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
         {/* Image Section */}
         <div className="relative">
