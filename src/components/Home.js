@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { FileText, Linkedin, Github } from 'lucide-react';
-import profileImage from '../images/profile.jpg';
+import React, { useState, useEffect } from "react";
+import { FileText, Linkedin, Github } from "lucide-react";
+import profileImage from "../images/profile.jpg";
 
 const useTypewriter = (text, speed = 100) => {
-  const [displayedText, setDisplayedText] = useState('');
+  const [displayedText, setDisplayedText] = useState("");
   const [isTypingComplete, setIsTypingComplete] = useState(false);
 
   useEffect(() => {
@@ -25,17 +25,23 @@ const useTypewriter = (text, speed = 100) => {
 };
 
 const Home = () => {
-  const { text, isTypingComplete } = useTypewriter("Hi I'm Justin, a Software Engineer", 100);
+  const { text, isTypingComplete } = useTypewriter(
+    "Hi I'm Justin, a Software Engineer",
+    100
+  );
 
   return (
-    <div id="home" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div
+      id="home"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
+    >
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
         {/* Image Section */}
         <div className="relative">
           <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl transform hover:scale-105 transition-transform duration-300">
-            <img 
+            <img
               src={profileImage}
-              alt="Justin's Profile" 
+              alt="Justin's Profile"
               className="w-full h-full object-cover"
             />
           </div>
@@ -62,34 +68,34 @@ const Home = () => {
               <span>Computer Science</span>
             </div>
             <p className="max-w-2xl">
-              I'm really passionate about building web applications with real world
-              functionality, and have 2+ years of experience in the SDLC.
+              I'm really passionate about building web applications with real
+              world functionality, and have 2+ years of experience in the SDLC.
             </p>
           </div>
 
           {/* Social Links */}
           <div className="flex items-center justify-center md:justify-start space-x-6 pt-4">
-            <a 
+            <a
               href="/resumecv.pdf"
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
               className="transform hover:scale-110 transition-transform duration-200"
               aria-label="Download Resume"
             >
               <FileText className="w-8 h-8 text-gray-700 hover:text-purple-600" />
             </a>
-            <a 
+            <a
               href="https://www.linkedin.com/in/justinklee1253/"
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
               className="transform hover:scale-110 transition-transform duration-200"
               aria-label="LinkedIn Profile"
             >
               <Linkedin className="w-8 h-8 text-gray-700 hover:text-blue-600" />
             </a>
-            <a 
+            <a
               href="https://github.com/justinklee1253"
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
               className="transform hover:scale-110 transition-transform duration-200"
               aria-label="GitHub Profile"
