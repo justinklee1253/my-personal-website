@@ -13,11 +13,8 @@ const useTypewriter = (text, speed = 100) => {
       }, speed);
       return () => clearTimeout(timeoutId);
     } else {
-      // Set typing as complete after a short delay
-      const finalTimeout = setTimeout(() => {
-        setIsTypingComplete(true);
-      }, 1000); // Wait 1 second after typing before hiding cursor
-      return () => clearTimeout(finalTimeout);
+      // Set typing as complete immediately
+      setIsTypingComplete(true);
     }
   }, [displayedText, text, speed]);
 
@@ -26,8 +23,8 @@ const useTypewriter = (text, speed = 100) => {
 
 const Home = () => {
   const { text, isTypingComplete } = useTypewriter(
-    "Hi I'm Justin, a Software Engineer",
-    100
+    "Hi I'm Justin,\nA Software Engineer",
+    50
   );
 
   return (
@@ -35,10 +32,11 @@ const Home = () => {
       id="home"
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
     >
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
         {/* Image Section */}
-        <div className="relative">
-          <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl transform hover:scale-105 transition-transform duration-300">
+        <div className="relative group">
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-500 rounded-full blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+          <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl transform hover:scale-105 transition-all duration-500 relative">
             <img
               src={profileImage}
               alt="Justin's Profile"
@@ -48,26 +46,35 @@ const Home = () => {
         </div>
 
         {/* Content Section */}
-        <div className="flex flex-col space-y-6 md:ml-8 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#312E81]">
-            <div className="flex flex-wrap items-center">
-              {text}
-              {!isTypingComplete && (
-                <span className="inline-block w-[3px] h-[1em] bg-[#312E81] ml-1 animate-blink"></span>
-              )}
-            </div>
+        <div className="flex flex-col space-y-8 md:ml-8 text-center md:text-left">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 leading-tight">
+            {text.split("\n").map((line, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center md:justify-start mb-2"
+              >
+                {line}
+                {!isTypingComplete && index === text.split("\n").length - 1 && (
+                  <span className="inline-block w-[3px] h-[1em] bg-blue-600 ml-1 animate-blink"></span>
+                )}
+              </div>
+            ))}
           </h1>
 
-          <div className="space-y-3 text-lg text-gray-700">
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <span className="font-semibold">School:</span>
-              <span>Boston College</span>
+          <div className="space-y-4 text-lg text-gray-600">
+            <div className="flex items-center justify-center md:justify-start gap-3">
+              <span className="font-semibold text-gray-800">School:</span>
+              <span className="bg-white/50 px-3 py-1 rounded-full">
+                Boston College
+              </span>
             </div>
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <span className="font-semibold">Major:</span>
-              <span>Computer Science</span>
+            <div className="flex items-center justify-center md:justify-start gap-3">
+              <span className="font-semibold text-gray-800">Major:</span>
+              <span className="bg-white/50 px-3 py-1 rounded-full">
+                Computer Science
+              </span>
             </div>
-            <p className="max-w-2xl">
+            <p className="max-w-2xl leading-relaxed">
               I'm really passionate about building web applications with real
               world functionality, and have 2+ years of experience in the SDLC.
             </p>
@@ -79,28 +86,31 @@ const Home = () => {
               href="/resumecv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="transform hover:scale-110 transition-transform duration-200"
+              className="group relative p-2"
               aria-label="Download Resume"
             >
-              <FileText className="w-8 h-8 text-gray-700 hover:text-purple-600" />
+              <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <FileText className="w-8 h-8 text-gray-700 group-hover:text-purple-600 relative z-10 transition-colors duration-300" />
             </a>
             <a
               href="https://www.linkedin.com/in/justinklee1253/"
               target="_blank"
               rel="noopener noreferrer"
-              className="transform hover:scale-110 transition-transform duration-200"
+              className="group relative p-2"
               aria-label="LinkedIn Profile"
             >
-              <Linkedin className="w-8 h-8 text-gray-700 hover:text-blue-600" />
+              <div className="absolute inset-0 bg-blue-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <Linkedin className="w-8 h-8 text-gray-700 group-hover:text-blue-600 relative z-10 transition-colors duration-300" />
             </a>
             <a
               href="https://github.com/justinklee1253"
               target="_blank"
               rel="noopener noreferrer"
-              className="transform hover:scale-110 transition-transform duration-200"
+              className="group relative p-2"
               aria-label="GitHub Profile"
             >
-              <Github className="w-8 h-8 text-gray-700 hover:text-purple-600" />
+              <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <Github className="w-8 h-8 text-gray-700 group-hover:text-purple-600 relative z-10 transition-colors duration-300" />
             </a>
           </div>
         </div>
