@@ -7,6 +7,14 @@ const About = () => {
     useState("LG Electronics");
 
   const experiences = {
+    "Content Academy": {
+      title: "Chief Technology Officer @ Content Academy",
+      date: "December 2024 - Present",
+      details: [
+        "Leading a team of 4 engineers and designers to develop a full-stack SaaS to deliver users a responsive dashboard with Instagram & Discord API Integrations for displaying relevant user statistics, video modules, an AI chatbot for personalized content scripts, and a leaderboard system for over 550+ users",
+        "Collaborating with stakeholders to align product development with client needs for iterative feature rollout, increasing user retention by 20%",
+      ],
+    },
     Teamworks: {
       title: "Software Engineering Intern @ Teamworks",
       date: "Summer 2024",
@@ -34,92 +42,84 @@ const About = () => {
   };
 
   return (
-    <div id="about" className="py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-[#312E81] mb-8">
-          About Me
-        </h2>
-
-        <div className="bg-white rounded-xl p-6 mb-10 shadow-lg">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1fr,400px] gap-8 items-center">
-            <div className="space-y-4">
-              <p className="text-lg text-gray-700 leading-relaxed">
+    <section id="about" className="py-24 px-4">
+      <div className="max-w-5xl mx-auto space-y-16">
+        {/* About Section */}
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-bold text-indigo-900">About Me</h2>
+            <div className="space-y-4 text-gray-600">
+              <p>
                 Hello! I'm Justin, a software engineer with a passion for
                 creating impactful web applications. I believe in writing clean,
                 efficient code and building solutions that make a difference.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p>
                 With a strong foundation in computer science from Boston College
                 and hands-on experience in software development, I specialize in
                 full-stack development with a focus on modern web technologies.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p>
                 When I'm not coding, you can find me lifting weights at the gym,
                 boxing and exploring the city.
               </p>
             </div>
+          </div>
+          <div className="max-w-[400px] w-full mx-auto aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
+            <img
+              src={profileImage}
+              alt="Justin's Profile"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
 
-            <div className="relative">
-              <div className="w-full h-[300px] rounded-xl overflow-hidden shadow-lg">
-                <img
-                  src={profileImage}
-                  alt="Justin's Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+        {/* Experience Section */}
+        <div className="space-y-8">
+          <h3 className="text-2xl font-bold text-indigo-900">Experience</h3>
+
+          <div className="grid md:grid-cols-[250px,1fr] gap-8">
+            {/* Company Selection */}
+            <div className="space-y-2">
+              {Object.keys(experiences).map((company) => (
+                <button
+                  key={company}
+                  onClick={() => setSelectedExperience(company)}
+                  className={`w-full text-left px-4 py-3 rounded transition-all
+                    ${
+                      selectedExperience === company
+                        ? "bg-indigo-600 text-white"
+                        : "text-gray-600 hover:bg-gray-50"
+                    }`}
+                >
+                  {company}
+                </button>
+              ))}
+            </div>
+
+            {/* Experience Details */}
+            <div className="space-y-4">
+              <h4 className="text-xl font-semibold text-gray-800">
+                {experiences[selectedExperience].title}
+              </h4>
+              <p className="text-gray-500 italic">
+                {experiences[selectedExperience].date}
+              </p>
+              <ul className="space-y-3">
+                {experiences[selectedExperience].details.map(
+                  (detail, index) => (
+                    <li key={index} className="flex gap-3 text-gray-600">
+                      <ChevronRight className="w-5 h-5 text-indigo-600 shrink-0 mt-1" />
+                      <span>{detail}</span>
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
           </div>
         </div>
-
-        <h3 className="text-2xl font-bold text-center text-[#312E81] mb-6">
-          Experience
-        </h3>
-
-        <div className="grid md:grid-cols-[300px,1fr] gap-8 max-w-5xl mx-auto">
-          <div className="space-y-2">
-            {Object.keys(experiences).map((company) => (
-              <button
-                key={company}
-                onClick={() => setSelectedExperience(company)}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 flex items-center justify-between group
-                  ${
-                    selectedExperience === company
-                      ? "bg-blue-600 text-white shadow-lg"
-                      : "bg-white text-gray-700 hover:bg-white hover:shadow-md"
-                  }`}
-              >
-                <span className="font-medium">{company}</span>
-                <ChevronRight
-                  className={`w-5 h-5 transition-transform duration-200 
-                    ${
-                      selectedExperience === company
-                        ? "rotate-90"
-                        : "group-hover:translate-x-1"
-                    }`}
-                />
-              </button>
-            ))}
-          </div>
-
-          <div className="bg-white rounded-xl p-6 shadow-lg">
-            <h4 className="text-xl font-bold text-gray-800 mb-2">
-              {experiences[selectedExperience].title}
-            </h4>
-            <p className="text-gray-600 mb-4 italic">
-              {experiences[selectedExperience].date}
-            </p>
-            <ul className="space-y-2">
-              {experiences[selectedExperience].details.map((detail, index) => (
-                <li key={index} className="flex items-start">
-                  <ChevronRight className="w-5 h-5 text-blue-600 shrink-0 mt-1" />
-                  <span className="text-gray-700 ml-2">{detail}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
