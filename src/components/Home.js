@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { FileText, Linkedin, Github } from "lucide-react";
+import { FileText, Linkedin, Github, MousePointer } from "lucide-react";
 import profileImage from "../images/profile.jpg";
+import { motion } from "framer-motion";
 
 const useTypewriter = (text, speed = 100) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -30,23 +31,40 @@ const Home = () => {
   return (
     <div
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden font-custom"
     >
+      {/* Add subtle animated background elements */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+        <div className="absolute top-40 right-20 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-40 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+      </div>
+
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-        {/* Image Section */}
-        <div className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-500 rounded-full blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
-          <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl transform hover:scale-105 transition-all duration-500 relative">
+        {/* Image Section - Add hover and click interactions */}
+        <motion.div
+          className="relative group"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        >
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
+          <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl relative">
             <img
               src={profileImage}
               alt="Justin's Profile"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transform transition-transform duration-500"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Content Section */}
-        <div className="flex flex-col space-y-8 md:ml-8 text-center md:text-left">
+        <motion.div
+          className="flex flex-col space-y-8 md:ml-8 text-center md:text-left"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 leading-tight">
             {text.split("\n").map((line, index) => (
               <div
@@ -61,11 +79,17 @@ const Home = () => {
             ))}
           </h1>
 
-          <div className="space-y-4 text-lg text-gray-600">
+          <motion.div
+            className="space-y-4 text-lg text-gray-600"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
             <div className="flex items-center justify-center md:justify-start gap-3">
               <span className="font-semibold text-gray-800">School:</span>
-              <span className="bg-white/50 px-3 py-1 rounded-full">
-                Boston College
+              <span className="bg-white/50 px-3 py-1 rounded-full hover:bg-transparent transition-colors duration-300">
+                <span className="hover:text-[#C5972D]">Boston</span>{" "}
+                <span className="hover:text-[#98002E]">College</span>
               </span>
             </div>
             <div className="flex items-center justify-center md:justify-start gap-3">
@@ -74,15 +98,28 @@ const Home = () => {
                 Computer Science
               </span>
             </div>
-            <p className="max-w-2xl leading-relaxed">
+            <motion.p
+              className="max-w-2xl leading-relaxed relative group cursor-default"
+              whileHover={{ scale: 1.02 }}
+            >
               I'm really passionate about building web applications with real
               world functionality, and have 2+ years of experience in the SDLC.
-            </p>
-          </div>
+              <span className="absolute -right-6 top-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                <MousePointer className="w-4 h-4 text-purple-500" />
+              </span>
+            </motion.p>
+          </motion.div>
 
-          {/* Social Links */}
-          <div className="flex items-center justify-center md:justify-start space-x-6 pt-4">
-            <a
+          {/* Social Links - Enhanced hover effects */}
+          <motion.div
+            className="flex items-center justify-center md:justify-start space-x-6 pt-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            <motion.a
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               href="/resumecv.pdf"
               target="_blank"
               rel="noopener noreferrer"
@@ -91,8 +128,10 @@ const Home = () => {
             >
               <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               <FileText className="w-8 h-8 text-gray-700 group-hover:text-purple-600 relative z-10 transition-colors duration-300" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               href="https://www.linkedin.com/in/justinklee1253/"
               target="_blank"
               rel="noopener noreferrer"
@@ -101,8 +140,10 @@ const Home = () => {
             >
               <div className="absolute inset-0 bg-blue-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               <Linkedin className="w-8 h-8 text-gray-700 group-hover:text-blue-600 relative z-10 transition-colors duration-300" />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               href="https://github.com/justinklee1253"
               target="_blank"
               rel="noopener noreferrer"
@@ -111,9 +152,9 @@ const Home = () => {
             >
               <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               <Github className="w-8 h-8 text-gray-700 group-hover:text-purple-600 relative z-10 transition-colors duration-300" />
-            </a>
-          </div>
-        </div>
+            </motion.a>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

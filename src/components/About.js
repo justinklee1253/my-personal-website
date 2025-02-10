@@ -51,8 +51,7 @@ const About = () => {
             <div className="space-y-4 text-gray-600">
               <p>
                 Hello! I'm Justin, a software engineer with a passion for
-                creating impactful web applications. I believe in writing clean,
-                efficient code and building solutions that make a difference.
+                creating impactful web applications.
               </p>
               <p>
                 With a strong foundation in computer science from Boston College

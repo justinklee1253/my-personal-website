@@ -5,3 +5,15 @@
 html {
   scroll-behavior: smooth;
 }
+
+@font-face {
+  font-family: "Capro";
+  src: url("./fonts/capro.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apply the font to all elements by default */
+* {
+  font-family: "Capro", system-ui, sans-serif;
+}
