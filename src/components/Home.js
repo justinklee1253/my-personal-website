@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FileText, Linkedin, Github, MousePointer } from "lucide-react";
 import profileImage from "../images/profile.jpg";
 import { motion } from "framer-motion";
+import gridPattern from "../assets/grid.svg";
 
 const useTypewriter = (text, speed = 100) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -31,13 +32,28 @@ const Home = () => {
   return (
     <div
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden font-custom"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden 
+        bg-white dark:bg-dark-bg transition-colors duration-300"
     >
-      {/* Add subtle animated background elements */}
-      <div className="absolute inset-0 -z-10">
+      {/* Dark mode background effects */}
+      <div className="absolute inset-0 -z-10 dark:bg-dark-gradient opacity-0 dark:opacity-100 transition-opacity duration-300">
+        <div
+          className="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"
+          style={{ backgroundImage: `url(${gridPattern})` }}
+        ></div>
+      </div>
+
+      {/* Existing animated background elements - visible only in light mode */}
+      <div className="absolute inset-0 -z-10 dark:opacity-0 transition-opacity duration-300">
         <div className="absolute top-20 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
         <div className="absolute top-40 right-20 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-8 left-40 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+      </div>
+
+      {/* Dark mode floating particles - visible only in dark mode */}
+      <div className="absolute inset-0 -z-10 opacity-0 dark:opacity-20 transition-opacity duration-300">
+        {/* Add some subtle star-like particles */}
+        <div className="stars"></div>
       </div>
 
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
@@ -48,7 +64,7 @@ const Home = () => {
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-500 dark:from-purple-400 dark:to-blue-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000"></div>
           <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl relative">
             <img
               src={profileImage}
@@ -65,7 +81,7 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 leading-tight">
             {text.split("\n").map((line, index) => (
               <div
                 key={index}
@@ -80,21 +96,25 @@ const Home = () => {
           </h1>
 
           <motion.div
-            className="space-y-4 text-lg text-gray-600"
+            className="space-y-4 text-lg text-gray-600 dark:text-gray-300"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
             <div className="flex items-center justify-center md:justify-start gap-3">
-              <span className="font-semibold text-gray-800">School:</span>
-              <span className="bg-white/50 px-3 py-1 rounded-full hover:bg-transparent transition-colors duration-300">
+              <span className="font-semibold text-gray-800 dark:text-white">
+                School:
+              </span>
+              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full hover:bg-transparent transition-colors duration-300">
                 <span className="hover:text-[#C5972D]">Boston</span>{" "}
                 <span className="hover:text-[#98002E]">College</span>
               </span>
             </div>
             <div className="flex items-center justify-center md:justify-start gap-3">
-              <span className="font-semibold text-gray-800">Major:</span>
-              <span className="bg-white/50 px-3 py-1 rounded-full">
+              <span className="font-semibold text-gray-800 dark:text-white">
+                Major:
+              </span>
+              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full">
                 Computer Science
               </span>
             </div>
@@ -126,8 +146,8 @@ const Home = () => {
               className="group relative p-2"
               aria-label="Download Resume"
             >
-              <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-              <FileText className="w-8 h-8 text-gray-700 group-hover:text-purple-600 relative z-10 transition-colors duration-300" />
+              <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <FileText className="w-8 h-8 text-gray-700 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 relative z-10 transition-colors duration-300" />
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.1 }}
@@ -138,8 +158,8 @@ const Home = () => {
               className="group relative p-2"
               aria-label="LinkedIn Profile"
             >
-              <div className="absolute inset-0 bg-blue-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-              <Linkedin className="w-8 h-8 text-gray-700 group-hover:text-blue-600 relative z-10 transition-colors duration-300" />
+              <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <Linkedin className="w-8 h-8 text-gray-700 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 relative z-10 transition-colors duration-300" />
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.1 }}
@@ -150,8 +170,8 @@ const Home = () => {
               className="group relative p-2"
               aria-label="GitHub Profile"
             >
-              <div className="absolute inset-0 bg-purple-100 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
-              <Github className="w-8 h-8 text-gray-700 group-hover:text-purple-600 relative z-10 transition-colors duration-300" />
+              <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <Github className="w-8 h-8 text-gray-700 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 relative z-10 transition-colors duration-300" />
             </motion.a>
           </motion.div>
         </motion.div>

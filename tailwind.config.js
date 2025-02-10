@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       keyframes: {
@@ -28,7 +29,18 @@ module.exports = {
         blob: "blob 7s infinite",
       },
       fontFamily: {
-        custom: ["Capro", "system-ui", "sans-serif"],
+        custom: ["Inter", "system-ui", "sans-serif"],
+      },
+      colors: {
+        dark: {
+          bg: "#0A0A0F",
+          surface: "#1A1A23",
+          accent: "#2A2A35",
+        },
+      },
+      backgroundImage: {
+        "dark-gradient":
+          "radial-gradient(circle at center, #1A1A23 0%, #0A0A0F 100%)",
       },
     },
   },

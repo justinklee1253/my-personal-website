@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import profileImage from "../images/profile2.jpg";
+import { motion, AnimatePresence } from "framer-motion";
 
 const About = () => {
   const [selectedExperience, setSelectedExperience] =
-    useState("LG Electronics");
+    useState("Content Academy");
 
   const experiences = {
     "Content Academy": {
@@ -42,21 +43,27 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="py-24 px-4">
+    <section
+      id="about"
+      className="py-24 px-4 dark:text-gray-200 transition-colors duration-300"
+    >
       <div className="max-w-5xl mx-auto space-y-16">
         {/* About Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-indigo-900">About Me</h2>
-            <div className="space-y-4 text-gray-600">
+            <h2 className="text-3xl font-bold text-indigo-900 dark:text-indigo-400">
+              About Me
+            </h2>
+            <div className="space-y-4 text-gray-600 dark:text-gray-300">
               <p>
                 Hello! I'm Justin, a software engineer with a passion for
                 creating impactful web applications.
               </p>
               <p>
-                With a strong foundation in computer science from Boston College
-                and hands-on experience in software development, I specialize in
-                full-stack development with a focus on modern web technologies.
+                I am set to graduate from BC in May 2025 with a B.A in Computer
+                Science, and I specialize in full-stack development with a focus
+                on integrating modern web technologies and frameworks into my
+                software solutions.
               </p>
               <p>
                 When I'm not coding, you can find me lifting weights at the gym,
@@ -64,7 +71,7 @@ const About = () => {
               </p>
             </div>
           </div>
-          <div className="max-w-[400px] w-full mx-auto aspect-[4/3] rounded-lg overflow-hidden shadow-lg">
+          <div className="max-w-[400px] w-full mx-auto aspect-[4/3] rounded-lg overflow-hidden shadow-lg dark:shadow-indigo-500/20">
             <img
               src={profileImage}
               alt="Justin's Profile"
@@ -75,46 +82,92 @@ const About = () => {
 
         {/* Experience Section */}
         <div className="space-y-8">
-          <h3 className="text-2xl font-bold text-indigo-900">Experience</h3>
+          <h3 className="text-2xl font-bold text-indigo-900 dark:text-indigo-400">
+            Experience
+          </h3>
 
           <div className="grid md:grid-cols-[250px,1fr] gap-8">
             {/* Company Selection */}
             <div className="space-y-2">
               {Object.keys(experiences).map((company) => (
-                <button
+                <motion.button
                   key={company}
                   onClick={() => setSelectedExperience(company)}
-                  className={`w-full text-left px-4 py-3 rounded transition-all
+                  className={`w-full text-left px-4 py-3 rounded transition-all relative
                     ${
                       selectedExperience === company
                         ? "bg-indigo-600 text-white"
-                        : "text-gray-600 hover:bg-gray-50"
+                        : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                     }`}
+                  whileHover={{ x: 4 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {company}
-                </button>
+                  {selectedExperience === company && (
+                    <motion.div
+                      className="absolute inset-0 bg-indigo-600 rounded z-[-1]"
+                      layoutId="experienceBackground"
+                      initial={false}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                </motion.button>
               ))}
             </div>
 
             {/* Experience Details */}
-            <div className="space-y-4">
-              <h4 className="text-xl font-semibold text-gray-800">
-                {experiences[selectedExperience].title}
-              </h4>
-              <p className="text-gray-500 italic">
-                {experiences[selectedExperience].date}
-              </p>
-              <ul className="space-y-3">
-                {experiences[selectedExperience].details.map(
-                  (detail, index) => (
-                    <li key={index} className="flex gap-3 text-gray-600">
-                      <ChevronRight className="w-5 h-5 text-indigo-600 shrink-0 mt-1" />
-                      <span>{detail}</span>
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedExperience}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-4"
+              >
+                <motion.h4
+                  className="text-xl font-semibold text-gray-800 dark:text-white"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  {experiences[selectedExperience].title}
+                </motion.h4>
+                <motion.p
+                  className="text-gray-500 dark:text-gray-400 italic"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {experiences[selectedExperience].date}
+                </motion.p>
+                <motion.ul
+                  className="space-y-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {experiences[selectedExperience].details.map(
+                    (detail, index) => (
+                      <motion.li
+                        key={index}
+                        className="flex gap-3 text-gray-600 dark:text-gray-300"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 + index * 0.1 }}
+                      >
+                        <ChevronRight className="w-5 h-5 text-indigo-600 dark:text-indigo-400 shrink-0 mt-1" />
+                        <span>{detail}</span>
+                      </motion.li>
+                    )
+                  )}
+                </motion.ul>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </div>
       </div>
