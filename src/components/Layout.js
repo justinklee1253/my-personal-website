@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 const Layout = ({ children }) => {
   const starsRef = useRef(null);
@@ -76,15 +77,57 @@ const Layout = ({ children }) => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-[linear-gradient(135deg,#f5f7ff_0%,#f1eeff_50%,#edf5ff_100%)] dark:bg-dark-bg dark:bg-none transition-colors duration-300 relative">
-      {/* Add a fixed background div that extends beyond viewport */}
-      <div className="fixed inset-0 bg-[linear-gradient(135deg,#f5f7ff_0%,#f1eeff_50%,#edf5ff_100%)] dark:bg-dark-bg -z-20" />
+    <div className="min-h-screen w-full bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:bg-dark-bg dark:bg-none transition-colors duration-300 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="fixed inset-0 bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:bg-dark-bg -z-20" />
+
+      {/* Animated background shapes */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        <motion.div
+          className="absolute top-1/4 -left-20 w-72 h-72 bg-primary-200/30 dark:bg-primary-900/20 rounded-full mix-blend-multiply filter blur-xl"
+          animate={{
+            y: [0, 30, 0],
+            x: [0, 20, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-purple-200/30 dark:bg-purple-900/20 rounded-full mix-blend-multiply filter blur-xl"
+          animate={{
+            y: [0, -40, 0],
+            x: [0, -30, 0],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-2/3 right-1/3 w-60 h-60 bg-blue-200/30 dark:bg-blue-900/20 rounded-full mix-blend-multiply filter blur-xl"
+          animate={{
+            y: [0, 50, 0],
+            x: [0, -20, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </div>
 
       <div
         className="stars fixed inset-0 -z-10 opacity-0 dark:opacity-100 transition-opacity duration-300"
         ref={starsRef}
       ></div>
-      {children}
+
+      {/* Content */}
+      <div className="relative z-0">{children}</div>
     </div>
   );
 };
