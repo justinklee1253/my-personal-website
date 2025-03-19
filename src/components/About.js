@@ -1,17 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-  ChevronRight,
-  Calendar,
-  Award,
-  Briefcase,
-  MapPin,
-  Code2,
-  Database,
-  HelpCircle,
-  ExternalLink,
-} from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Briefcase, MapPin, Code2, Database, ExternalLink } from "lucide-react";
 import profileImage from "../images/profile2.jpg";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 const About = () => {
   const timelineRef = useRef(null);
@@ -60,7 +50,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="py-24 px-4 dark:text-gray-200 transition-colors duration-300"
+      className="min-h-screen w-full py-20 px-4 sm:px-6 lg:px-8 flex flex-col justify-center"
     >
       <div className="max-w-5xl mx-auto space-y-16">
         {/* About Section */}
