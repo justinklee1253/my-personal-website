@@ -1,7 +1,7 @@
 import React from "react";
 import { Github, ExternalLink, Code2 } from "lucide-react";
 
-import project1Image from "../images/caproj.png";
+import project1Image from "../images/contentacademyimg.png";
 import project2Image from "../images/resolved.png";
 import project3Image from "../images/moimsushi.png";
 

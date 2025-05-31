@@ -43,9 +43,7 @@ const ContactSection = () => {
               <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
                 Location
               </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Boston, Massachusetts
-              </p>
+              <p className="text-gray-600 dark:text-gray-300">New York City</p>
             </div>
           </div>
         </div>
