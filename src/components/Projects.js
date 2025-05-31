@@ -12,8 +12,8 @@ const projects = [
       "Developing an all-in-one gamified platform for content creators to manage their content, schedule posts, and analyze their content's performance.",
     imageUrl: project1Image,
     techStack: ["React", "Node.js", "Redis", "Tailwind CSS", "Typescript"],
-    githubLink: "https://github.com/Hartman5/Content-Academy-3.0",
-    liveLink: "https://ca-3-0-hosting.vercel.app/dashboard",
+    githubLink: "https://github.com/justinklee1253/ca-3.0-frontend",
+    liveLink: "https://app.contentacademy.io/",
     category: "Full Stack",
   },
   {

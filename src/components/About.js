@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useLayoutEffect } from "react";
 import { Briefcase, MapPin, Code2, Database, ExternalLink } from "lucide-react";
 import profileImage from "../images/profile2.jpg";
 import { motion, useInView } from "framer-motion";
@@ -7,16 +7,29 @@ const About = () => {
   const timelineRef = useRef(null);
   const isTimelineInView = useInView(timelineRef, { once: true, amount: 0.2 });
   const [hoveredItem, setHoveredItem] = useState(null);
+  const [dotTop, setDotTop] = useState(0);
+  const itemRefs = useRef([]);
+
+  useLayoutEffect(() => {
+    if (!timelineRef.current || itemRefs.current.length === 0) return;
+    const idx = hoveredItem !== null ? hoveredItem : 0;
+    const containerRect = timelineRef.current.getBoundingClientRect();
+    const itemRect = itemRefs.current[idx]?.getBoundingClientRect();
+    if (itemRect && containerRect) {
+      setDotTop(itemRect.top - containerRect.top + itemRect.height / 2 - 10); // 10 = dot radius
+    }
+  }, [hoveredItem, isTimelineInView]);
 
   const experiences = [
     {
       company: "Content Academy",
       title: "Lead Software Engineer",
-      date: "December 2024 - Present",
+      date: "December 2024 - May 2024",
       location: "Boston, MA",
       details: [
-        "Leading a team of 4 engineers and designers to develop a full-stack SaaS to deliver users a responsive dashboard with Instagram & Discord API Integrations for displaying relevant user statistics, video modules, an AI chatbot for personalized content scripts, and a leaderboard system for over 550+ users",
-        "Collaborating with stakeholders to align product development with client needs for iterative feature rollout, increasing user retention by 20%",
+        "Led a team of 4 engineers and designers to architect and deploy a scalable full-stack SaaS platform using React, Node.js, Redis, and PostgreSQL, supporting 500+ active users and integrating third-party APIs for personalized video content and user analytics.",
+        "Increased user retention by 20% through iterative feature rollouts, including a gamified mission and reward system, a ranking algorithm based on Instagram metrics, and a Discord-integrated leaderboard for community engagement.",
+        "Reduced dashboard load times by over 20% by implementing Redis caching for Instagram API metrics and optimizing frontend data rendering pipelines.",
       ],
       color: "indigo",
       icon: <Briefcase className="w-5 h-5" />,
@@ -27,8 +40,9 @@ const About = () => {
       date: "Summer 2024",
       location: "Durham, NC",
       details: [
-        "Built out new feature within the travel module of Teamworks Backend API to support multi-team trips and wrote documentation for clarity.",
-        "Developed new Facility Management feature with the Engineering Strike Team: following SDLC practices, applied debugging principles, and wrote unit tests to ensure code quality and scalability.",
+        "Developed functionality for team itinerary PDF generation within an existing feature in the backend API using Python and Flask, enabling the scheduling of 1,000+ multi-team trips for sports organizations.",
+        "Developed and deployed a new facility management feature within the backend API in collaboration with the Engineering Strike Team, applying Agile development practices to ensure high code quality",
+        "Wrote unit and snapshot tests following Test-Driven Development(TDD) principles, increasing code coverage by 25% and improving system reliability and scalability.",
       ],
       color: "blue",
       icon: <Code2 className="w-5 h-5" />,
@@ -39,8 +53,8 @@ const About = () => {
       date: "Summer 2023",
       location: "Englewood Cliffs, NJ",
       details: [
-        "Integrated LG's MSSQL database with Airtable to enhance data accessibility and operational workflows for sales teams.",
-        "Built a shipment validation tool using Python, Flask, SQLite, and Google Maps API, improving logistics accuracy and efficiency.",
+        "Improved logistics accuracy by 30% through spearheading the development of a shipment validation tool using Python, Flask, SQLite, and the Google Maps Address Validation API, improving logistics accuracy by 30% and reducing processing times for shipment data.",
+        "Developed Python scripts integrating LG's MSSQL database with Airtable, automating data synchronization, and improving data accessibility for 50+ sales representatives.",
       ],
       color: "purple",
       icon: <Database className="w-5 h-5" />,
@@ -65,10 +79,10 @@ const About = () => {
                 creating impactful web applications.
               </p>
               <p>
-                I am set to graduate from BC in May 2025 with a B.A in Computer
-                Science, and I specialize in full-stack development with a focus
-                on integrating modern web technologies and frameworks into my
-                software solutions.
+                I recently graduated from BC (Spring 2025) with a B.A in
+                Computer Science, and I specialize in full-stack development
+                with a focus on building secure and fast backend REST APIs,
+                integrating 3rd party APIs and solving problems through my code.
               </p>
               <p>
                 When I'm not coding, you can find me lifting weights at the gym,
@@ -103,10 +117,14 @@ const About = () => {
               initial={{ height: 0 }}
               animate={isTimelineInView ? { height: "100%" } : {}}
               transition={{ duration: 1.5, ease: "easeOut" }}
-            >
-              {/* Animated pulse effect on the line */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-indigo-500 animate-ping opacity-75"></div>
-            </motion.div>
+            />
+
+            {/* Moving timeline dot */}
+            <motion.div
+              className="absolute left-[-10px] w-5 h-5 rounded-full border-4 border-indigo-500 bg-indigo-500 z-20"
+              animate={{ top: dotTop }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            />
 
             {/* Timeline items */}
             <div className="space-y-12">
@@ -114,30 +132,13 @@ const About = () => {
                 <motion.div
                   key={experience.company}
                   className="relative"
+                  ref={(el) => (itemRefs.current[index] = el)}
                   initial={{ opacity: 0, x: -50 }}
                   animate={isTimelineInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.2 }}
                   onMouseEnter={() => setHoveredItem(index)}
                   onMouseLeave={() => setHoveredItem(null)}
                 >
-                  {/* Timeline dot with pulse effect */}
-                  <motion.div
-                    className={`absolute -left-[28px] w-[20px] h-[20px] rounded-full border-4 border-${experience.color}-500 bg-${experience.color}-500 flex items-center justify-center z-10`}
-                    initial={{ scale: 0 }}
-                    animate={isTimelineInView ? { scale: 1 } : {}}
-                    transition={{ duration: 0.3, delay: 0.2 + index * 0.2 }}
-                    whileHover={{ scale: 1.2 }}
-                  >
-                    {hoveredItem === index && (
-                      <motion.div
-                        className={`absolute w-[30px] h-[30px] rounded-full border-2 border-${experience.color}-400 opacity-70`}
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1.5, opacity: 0 }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      />
-                    )}
-                  </motion.div>
-
                   {/* Content with hover effects */}
                   <motion.div
                     className={`p-5 rounded-lg transition-all duration-300 ${

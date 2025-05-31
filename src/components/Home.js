@@ -122,8 +122,10 @@ const Home = () => {
               className="max-w-2xl leading-relaxed relative group cursor-default"
               whileHover={{ scale: 1.02 }}
             >
-              I'm really passionate about building web applications with real
-              world functionality, and have 2+ years of experience in the SDLC.
+              As a recent graduate from Boston College (Spring 2025) with 2+
+              years of experience building out REST APIs, integrating APIs and
+              building full-stack applications, I'm currently seeking Full-Stack
+              or Backend Software Engineering roles.
               <span className="absolute -right-6 top-0 opacity-0 group-hover:opacity-100 transition-opacity">
                 <MousePointer className="w-4 h-4 text-purple-500" />
               </span>
