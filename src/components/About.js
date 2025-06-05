@@ -41,7 +41,7 @@ const About = () => {
       details: [
         "Developed functionality for team itinerary PDF generation within an existing feature in the backend API using Python and Flask, enabling the scheduling of 1,000+ multi-team trips for sports organizations.",
         "Spearheaded development of new feature for over 6,300+ sports teams within the backend API in collaboration with the Engineering Strike Team, using Python, Flask GraphQL, applying Agile development practices to ensure high code quality",
-        "Wrote unit and snapshot tests following Test-Driven Development(TDD) principles, increasing code coverage by 25% and improving system reliability and scalability.",
+        "Wrote unit and snapshot tests following Test-Driven Development(TDD) principles, increasing code coverage by 10% and improving system reliability and scalability.",
       ],
       color: "blue",
       icon: <Code2 className="w-5 h-5" />,
