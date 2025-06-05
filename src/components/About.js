@@ -29,7 +29,6 @@ const About = () => {
       details: [
         "Led a team of 4 engineers and designers to architect and deploy a scalable full-stack SaaS platform using React, Node.js, Redis, and PostgreSQL, supporting 500+ active users and integrating third-party APIs for personalized video content and user analytics.",
         "Increased user retention by 20% through iterative feature rollouts, including a gamified mission and reward system, a ranking algorithm based on Instagram metrics, and a Discord-integrated leaderboard for community engagement.",
-        "Reduced dashboard load times by over 20% by implementing Redis caching for Instagram API metrics and optimizing frontend data rendering pipelines.",
       ],
       color: "indigo",
       icon: <Briefcase className="w-5 h-5" />,
@@ -41,7 +40,7 @@ const About = () => {
       location: "Durham, NC",
       details: [
         "Developed functionality for team itinerary PDF generation within an existing feature in the backend API using Python and Flask, enabling the scheduling of 1,000+ multi-team trips for sports organizations.",
-        "Developed and deployed a new facility management feature within the backend API in collaboration with the Engineering Strike Team, applying Agile development practices to ensure high code quality",
+        "Spearheaded development of new feature for over 6,300+ sports teams within the backend API in collaboration with the Engineering Strike Team, using Python, Flask GraphQL, applying Agile development practices to ensure high code quality",
         "Wrote unit and snapshot tests following Test-Driven Development(TDD) principles, increasing code coverage by 25% and improving system reliability and scalability.",
       ],
       color: "blue",
@@ -53,7 +52,7 @@ const About = () => {
       date: "Summer 2023",
       location: "Englewood Cliffs, NJ",
       details: [
-        "Improved logistics accuracy by 30% through spearheading the development of a shipment validation tool using Python, Flask, SQLite, and the Google Maps Address Validation API, improving logistics accuracy by 30% and reducing processing times for shipment data.",
+        "Improved logistics accuracy by 10% through spearheading the development of a shipment validation tool using Python, Flask, SQLite, and the Google Maps Address Validation API, improving logistics accuracy by 30% and reducing processing times for shipment data.",
         "Developed Python scripts integrating LG's MSSQL database with Airtable, automating data synchronization, and improving data accessibility for 50+ sales representatives.",
       ],
       color: "purple",
