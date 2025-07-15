@@ -17,7 +17,7 @@ const projects = [
     category: "Full Stack",
   },
   {
-    title: "Resolved",
+    title: "Resolve",
     description:
       "Developed a multi-modal complaint analysis system to process & categorize a company's customer complaints across various formats, including audio, text, image, and video files. Deployed using Docker",
     imageUrl: project2Image, // Replace with your project image
