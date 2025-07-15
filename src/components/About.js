@@ -201,7 +201,6 @@ const About = () => {
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <span>Experience details</span>
                         <ExternalLink className="w-3 h-3" />
                       </motion.div>
                     )}
