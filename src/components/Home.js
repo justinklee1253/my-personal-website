@@ -5,8 +5,6 @@ import { FileText, Linkedin, Github, MousePointer } from "lucide-react";
 import profileImage from "../images/profile.jpg";
 import { motion, useInView } from "framer-motion";
 import gridPattern from "../assets/grid.svg";
-import GitHubCalendar from "react-github-calendar";
-import "../styles/github-calendar-styles.css";
 
 const useTypewriter = (text, speed = 100) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -32,8 +30,6 @@ const Home = () => {
     "Hi I'm Justin,\nA Software Engineer",
     50
   );
-  const calendarRef = React.useRef(null);
-  const isCalendarInView = useInView(calendarRef, { once: true, amount: 0.2 });
 
   return (
     <div
@@ -188,75 +184,6 @@ const Home = () => {
           </motion.div>
         </motion.div>
       </div>
-
-      {/* GitHub Activity Section - Now positioned below main content */}
-      <motion.div
-        className="w-full max-w-4xl mx-auto px-4"
-        initial={{ opacity: 0, y: 40 }}
-        animate={isCalendarInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        ref={calendarRef}
-      >
-        <motion.h3
-          className="text-xl md:text-2xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isCalendarInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          My GitHub Activity
-        </motion.h3>
-
-        <motion.div
-          className="rounded-2xl shadow-lg dark:shadow-gray-900/30 bg-white/80 dark:bg-gray-900/80 p-4 md:p-6 group cursor-pointer"
-          whileHover={{
-            scale: 1.02,
-            boxShadow: "0 0 20px rgba(139, 92, 246, 0.4)",
-            transition: { duration: 0.2, ease: "easeOut" },
-          }}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={isCalendarInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          style={{
-            transition: "all 0.2s ease-out",
-          }}
-        >
-          <div className="flex justify-center">
-            <GitHubCalendar
-              username="justinklee1253"
-              blockSize={12}
-              blockMargin={3}
-              colorScheme={
-                typeof window !== "undefined" &&
-                window.matchMedia &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches
-                  ? "dark"
-                  : "light"
-              }
-              fontSize={12}
-              style={{
-                width: "100%",
-                maxWidth: "800px",
-                color: "white",
-              }}
-              theme={{
-                light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
-                dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
-              }}
-              renderBlock={(block, value) => (
-                <motion.rect
-                  {...block.props}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isCalendarInView ? { opacity: 1, scale: 1 } : {}}
-                  transition={{
-                    duration: 0.4,
-                    delay: 0.05 * (value?.count || 0),
-                  }}
-                />
-              )}
-            />
-          </div>
-        </motion.div>
-      </motion.div>
     </div>
   );
 };

@@ -3,13 +3,13 @@ import { Github, ExternalLink, Code2 } from "lucide-react";
 
 import project1Image from "../images/contentacademyimg.png";
 import project2Image from "../images/resolved.png";
-import project3Image from "../images/moimsushi.png";
+import project3Image from "../images/polaritydash.png";
 
 const projects = [
   {
     title: "Content Academy",
     description:
-      "Developing an all-in-one gamified platform for content creators to manage their content, schedule posts, and analyze their content's performance.",
+      "Content Academy is a gamified all-in-one platform that helps content creators scale their personal brands by managing, scheduling, and analyzing their content. With over 750+ active users, the platform syncs real-time performance data via the Instagram API and turns the content creation journey into a more engaging experience through missions, rewards, and a leaderboard system.",
     imageUrl: project1Image,
     techStack: ["React", "Node.js", "Redis", "Tailwind CSS", "Typescript"],
     githubLink: "https://github.com/justinklee1253/ca-3.0-frontend",
@@ -17,9 +17,25 @@ const projects = [
     category: "Full Stack",
   },
   {
+    title: "Polarity",
+    description:
+      "Polarity is an AI-powered financial assistant that helps college students curb impulsive spending in high-risk areas like sports betting, gambling, and eating out. Polarity syncs bank transactions through Plaid API integration, analyzes spending patterns, and leverages AI trained with context from your bank data to answer questions about budgeting, expenses, and financial goals.",
+    imageUrl: project3Image, // Replace with your project image
+    techStack: [
+      "Python",
+      "Flask",
+      "Javascript",
+      "React.js",
+      "Neondb",
+      "Langchain",
+    ],
+    githubLink: "https://github.com/justinklee1253/Polarity",
+    category: "Full Stack",
+  },
+  {
     title: "Resolve",
     description:
-      "Developed a multi-modal complaint analysis system to process & categorize a company's customer complaints across various formats, including audio, text, image, and video files. Deployed using Docker",
+      "Resolve is a multi-modal complaint analysis system that processes and categorizes customer complaints across audio, text, image, and video formats. Deployed using Docker, Resolve leverages OpenAI Whisper for speech-to-text and Google Cloud Video Intelligence for image and video analysis—extracting insights from unstructured support data to help companies streamline issue resolution.",
     imageUrl: project2Image, // Replace with your project image
     techStack: [
       "React",
@@ -27,20 +43,10 @@ const projects = [
       "Google Cloud Console",
       "Docker",
       "RAG Pipeline",
+      "Pinecone",
     ],
     githubLink: "https://github.com/nickyim/Resolved--Spend-Ruby-Hackathon-",
     category: "Full Stack",
-  },
-
-  {
-    title: "Mo-Im Sushi",
-    description:
-      "Built my uncle's new sushi restaurant a website using basic HTML CSS and Vanilla Javascript",
-    imageUrl: project3Image, // Replace with your project image
-    techStack: ["HTML", "CSS", "Javascript"],
-    liveLink: "https://mo-imsushi.netlify.app/",
-    githubLink: "https://github.com/justinklee1253/moimsushi",
-    category: "Frontend",
   },
 ];
 
