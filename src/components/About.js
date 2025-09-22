@@ -2,6 +2,9 @@ import React, { useState, useRef, useLayoutEffect } from "react";
 import { Briefcase, MapPin, Code2, Database, ExternalLink } from "lucide-react";
 import profileImage from "../images/profile2.jpg";
 import { motion, useInView } from "framer-motion";
+import caLogo from "../images/CA LOGO.png";
+import teamworksLogo from "../images/twlogo.jpeg";
+import lgLogo from "../images/lglogo.png";
 
 const About = () => {
   const timelineRef = useRef(null);
@@ -33,12 +36,13 @@ const About = () => {
       ],
       color: "indigo",
       icon: <Briefcase className="w-5 h-5" />,
+      logo: caLogo,
     },
     {
       company: "Teamworks",
       title: "Software Engineering Intern",
       date: "Summer 2024",
-      location: "Durham, NC",
+      location: "Durham, NC (Remote)",
       details: [
         "Developed and deployed a Flask-based PDF/CSV export feature to automate itinerary downloads for 1,000+ multi-team trips for professional sports organizations, reducing manual work and enhancing operational efficiency.",
         "Built a scalable backend service used by 6,300+ sports teams using Python, Flask, and GraphQL, collaborating cross-functionally in Agile sprints aligned with product roadmap milestones.",
@@ -46,6 +50,7 @@ const About = () => {
       ],
       color: "blue",
       icon: <Code2 className="w-5 h-5" />,
+      logo: teamworksLogo,
     },
     {
       company: "LG Electronics",
@@ -59,6 +64,7 @@ const About = () => {
       ],
       color: "purple",
       icon: <Database className="w-5 h-5" />,
+      logo: lgLogo,
     },
   ];
 
@@ -87,7 +93,7 @@ const About = () => {
               </p>
               <p>
                 When I'm not coding, you can find me lifting weights at the gym,
-                boxing and exploring the city.
+                playing basketball and exploring new places to eat.
               </p>
             </div>
           </div>
@@ -152,15 +158,32 @@ const About = () => {
                       transition: { duration: 0.2 },
                     }}
                   >
-                    <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2">
-                      <h4 className="text-xl font-bold text-gray-800 dark:text-white">
-                        {experience.company}
-                      </h4>
-                      <span className="hidden md:inline text-gray-400">—</span>
-                      <span className="text-lg italic text-indigo-600 dark:text-indigo-400">
+                    <div className="flex flex-col lg:flex-row lg:items-center gap-2 mb-2">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <motion.div
+                          className="relative group/logo flex-shrink-0"
+                          whileHover={{ scale: 1.1 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <img
+                            src={experience.logo}
+                            alt={`${experience.company} Logo`}
+                            className="w-8 h-8 object-contain rounded-full bg-white/80 dark:bg-gray-700/80 p-1 shadow-sm group-hover/logo:shadow-md transition-shadow duration-200"
+                          />
+                          <motion.div
+                            className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 opacity-0 group-hover/logo:opacity-100 transition-opacity duration-300"
+                            initial={false}
+                          />
+                        </motion.div>
+                        <h4 className="text-xl font-bold text-gray-800 dark:text-white whitespace-nowrap">
+                          {experience.company}
+                        </h4>
+                      </div>
+                      <span className="hidden lg:inline text-gray-400">—</span>
+                      <span className="text-lg italic text-indigo-600 dark:text-indigo-400 whitespace-nowrap">
                         {experience.title}
                       </span>
-                      <div className="md:ml-auto text-right text-gray-500 dark:text-gray-400 font-medium">
+                      <div className="lg:ml-auto text-left lg:text-right text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">
                         {experience.date}
                       </div>
                     </div>

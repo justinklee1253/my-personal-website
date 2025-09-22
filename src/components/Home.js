@@ -5,6 +5,7 @@ import { FileText, Linkedin, Github, MousePointer } from "lucide-react";
 import profileImage from "../images/profile.jpg";
 import { motion } from "framer-motion";
 import gridPattern from "../assets/grid.svg";
+import bostonCollegeLogo from "../images/bostoncollege.png";
 
 const useTypewriter = (text, speed = 100) => {
   const [displayedText, setDisplayedText] = useState("");
@@ -107,10 +108,38 @@ const Home = () => {
               <span className="font-semibold text-gray-800 dark:text-white">
                 School:
               </span>
-              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full hover:bg-transparent transition-colors duration-300">
-                <span className="hover:text-[#C5972D]">Boston</span>{" "}
-                <span className="hover:text-[#98002E]">College</span>
-              </span>
+              <motion.div
+                className="group relative bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full hover:bg-transparent transition-colors duration-300 flex items-center gap-2 cursor-pointer"
+                whileHover={{
+                  scale: 1.05,
+                  transition: { duration: 0.2, ease: "easeOut" },
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <motion.div
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#C5972D]/10 to-[#98002E]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  initial={false}
+                />
+                <img
+                  src={bostonCollegeLogo}
+                  alt="Boston College Logo"
+                  className="w-5 h-5 object-contain relative z-10"
+                />
+                <span className="flex items-center gap-1 relative z-10">
+                  <motion.span
+                    className="hover:text-[#C5972D] transition-colors duration-300"
+                    whileHover={{ y: -1 }}
+                  >
+                    Boston
+                  </motion.span>
+                  <motion.span
+                    className="hover:text-[#98002E] transition-colors duration-300"
+                    whileHover={{ y: -1 }}
+                  >
+                    College
+                  </motion.span>
+                </span>
+              </motion.div>
             </div>
 
             <div className="flex items-center justify-center md:justify-start gap-3">
@@ -127,9 +156,10 @@ const Home = () => {
               whileHover={{ scale: 1.02 }}
             >
               As a recent graduate from Boston College (Spring 2025) with 2+
-              years of experience building out REST APIs, integrating APIs and
-              building full-stack applications, I'm currently seeking Full-Stack
-              or Backend Software Engineering roles.
+              years of experience building out REST APIs, and building
+              full-stack AI integrated applications, I'm currently seeking
+              opportunities in Full-Stack/Backend Software Engineering and AI/ML
+              roles.
               <span className="absolute -right-6 top-0 opacity-0 group-hover:opacity-100 transition-opacity">
                 <MousePointer className="w-4 h-4 text-purple-500" />
               </span>
