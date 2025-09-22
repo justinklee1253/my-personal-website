@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FileText, Linkedin, Github, MousePointer } from "lucide-react";
 import profileImage from "../images/profile.jpg";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import gridPattern from "../assets/grid.svg";
 
 const useTypewriter = (text, speed = 100) => {
