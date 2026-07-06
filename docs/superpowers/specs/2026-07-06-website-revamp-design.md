@@ -65,11 +65,13 @@ Single narrow column, top to bottom:
 4. Headline (Inter 600, one line on desktop): positioning statement — working draft: *"Backend engineer, building for the person on the other end of the request."*
 5. Bio, 2–3 lines, human voice: current role, BC CS grad, interest in backend + end-user-minded building, mentions of music and training. Final copy needs Justin's approval.
 6. Mono link row: `github · linkedin · resume · email` (resume = PDF in `/public`).
-7. **Spotify block** at page bottom:
-   - Header row: `recently_played` / `top_tracks` toggle (mono). Small `via spotify` label.
-   - 4–6 minimal track rows: album art (~32px, rounded), track title (Inter 500), artist (mono, gray), relative timestamp (mono, dim) for recently-played.
-   - **Failure mode: if the Spotify fetch errors or returns empty, the entire block unmounts.** The page must read as complete without it. No skeletons that never resolve, no error text.
-   - Podcasts: cut from v1.
+7. **Spotify block** at page bottom (v2, amended 2026-07-06 after seeing live data):
+   - Header row: `Recently Played` / `Top Tracks` toggle (mono). Small `via Spotify` label.
+   - **Featured card** belongs to the active tab: on Top Tracks it's `#1 This Month`; on Recently Played it's `Last Played · <relative time>`. Large art (300px source at ~96px), title Inter semibold, strong album-color wash (bg ~22%, border ~40%).
+   - Below it, 5 **tinted track rows**: soft cards washed at ~10% with each album's dominant color, art 40px, mono rank numbers (`02, 03…`) on Top Tracks, mono relative timestamps on Recently Played.
+   - **Album-color extraction** is client-side (`src/lib/albumColor.js`): 16×16 canvas downsample, most saturated mid-lightness pixel, grayscale average fallback; extraction failure = untinted card, never an error. The tint palette comes from the music, not the site accent.
+   - **Failure mode: a failed feed hides its toggle and auto-switches; the block unmounts only when both feeds fail or return empty.** The page must read as complete without it. No skeletons that never resolve, no error text.
+   - Podcasts: cut from v1. Preview buttons impossible (Spotify removed preview URLs for new API apps); Save-on-Spotify rejected (write scopes).
 
 ### 4.2 About
 1. Nav.
@@ -89,7 +91,7 @@ Nav label: `training`. Page eyebrow: `off hours`. Heading: `The training log.`
 2. **PR stat blocks** — three cards (`#111`, `#222` border): big mono number + small mono label:
    - `315 lbs` / squat · `255 lbs` / bench @ 185 bw · `18 reps` / pull-ups
 3. **Goal bar** — card: `current_goal: bench 315` (goal name in accent), `255 / 315` right-aligned, 4px progress bar (accent fill, 81%), quiet footnote ("updated when it happens, not before"). Fills on scroll-into-view.
-4. Section `log` — **changelog**: reverse-chronological, left-railed like the timeline. Entry: mono date (`YYYY-MM`) + one sentence, key numbers bolded. Newest entry gets the green dot. Seed with real history (PRs, both half marathons — real times/dates from Justin's Strava/Nike app records).
+4. Section `log` — **changelog**: reverse-chronological, left-railed like the timeline. Entry: mono date (`YYYY-MM`) + one plain sentence (no inline bolding — quieter). Newest entry gets the green dot. Seed with real history (PRs, both half marathons — real times/dates from Justin's Strava/Nike app records).
 5. Section `proof` — small photo strip (3–4 running/gym photos with friends, same rounded style, no fan rotation).
 
 **Data-first design:** the whole page renders from `src/data/training.js`. Updating = appending one object. See §5.
@@ -110,7 +112,7 @@ All mutable content lives in plain data modules — updating the site means edit
 src/data/
   profile.js    — name, role, eyebrow, bio lines, social URLs, resume path
   timeline.js   — [{ company, role, years, note, current }]
-  projects.js   — [{ name, description, stack: [], github, live? }]
+  projects.js   — [{ name, description, stack: "a · b · c", github, live? }]
   training.js   — { prs: [{ label, value, unit, note? }],
                     goal: { label, current, target, unit },
                     log: [{ date: 'YYYY-MM', text, highlight? }],
@@ -150,7 +152,7 @@ src/data/
 
 ## 9. Copy guidelines
 
-- Sentence-case headings; lowercase mono labels (`recently_played`, `current_goal`, `off hours`).
+- Sentence-case headings. Mono labels (owner decision, 2026-07-06): multi-word labels are Title Case with normal spacing (`Recently Played`, `Current Goal`, `Book a Call`, `#1 This Month`) — no snake_case anywhere; single-word section labels stay lowercase (`timeline`, `log`, `proof`, `channels`), as do eyebrows (`about`, `off hours`, `contact`).
 - Human notes are lowercase, wry, specific ("three plates, finally"). Numbers do the bragging; the prose stays modest.
 - No résumé-speak anywhere on the site ("Led a team of 4 to architect and deploy…" is banned). The PDF résumé holds that register.
 - All final copy gets Justin's sign-off before launch.
