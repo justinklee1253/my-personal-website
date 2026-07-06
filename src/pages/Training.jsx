@@ -12,7 +12,7 @@ function GoalBar({ goal }) {
     <div ref={ref} className="mt-4 rounded-xl border border-edge bg-surface p-5">
       <div className="flex items-baseline justify-between font-mono text-xs">
         <span className="text-ink-body">
-          current_goal: <span className="text-accent">{goal.label}</span>
+          Current Goal: <span className="text-accent">{goal.label}</span>
         </span>
         <span className="text-ink-dim">
           {goal.current} / {goal.target}

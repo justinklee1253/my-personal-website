@@ -4,14 +4,14 @@ import { relativeTime } from "../lib/relativeTime.js";
 import { useAlbumColor, wash } from "../lib/albumColor.js";
 
 const FEEDS = [
-  ["recent", "recently_played"],
-  ["top", "top_tracks"],
+  ["recent", "Recently Played"],
+  ["top", "Top Tracks"],
 ];
 
 const cardFocus =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
-function FeaturedTrack({ track }) {
+function FeaturedTrack({ track, label }) {
   const color = useAlbumColor(track.art);
   return (
     <a
@@ -32,7 +32,7 @@ function FeaturedTrack({ track }) {
         />
       )}
       <span className="min-w-0">
-        <span className="block font-mono text-[11px] text-ink-dim">#1_this_month</span>
+        <span className="block font-mono text-[11px] text-ink-dim">{label}</span>
         <span className="mt-1.5 block truncate text-xl font-semibold text-ink">
           {track.title}
         </span>
@@ -113,8 +113,9 @@ export default function SpotifyBlock() {
 
   if (!cache.recent && !cache.top) return null;
 
-  const featured = cache.top?.[0];
-  const rows = feed === "top" ? (cache.top ?? []).slice(1) : (cache.recent ?? []);
+  const list = cache[feed] ?? [];
+  const featured = list[0];
+  const rows = list.slice(1);
   const toggles = FEEDS.filter(([key]) => !failed[key]);
 
   return (
@@ -136,10 +137,21 @@ export default function SpotifyBlock() {
               </button>
             ))}
           </span>
-          <span>via spotify</span>
+          <span>via Spotify</span>
         </span>
       </SectionLabel>
-      {featured && <FeaturedTrack track={featured} />}
+      {featured && (
+        <FeaturedTrack
+          track={featured}
+          label={
+            feed === "top"
+              ? "#1 This Month"
+              : featured.playedAt
+                ? `Last Played · ${relativeTime(featured.playedAt)}`
+                : "Last Played"
+          }
+        />
+      )}
       <ul className="space-y-2">
         {rows.map((t, i) => (
           <TrackRow

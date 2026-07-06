@@ -76,7 +76,7 @@ export default function Contact() {
         })}
       </div>
 
-      <SectionLabel>book_a_call</SectionLabel>
+      <SectionLabel>Book a Call</SectionLabel>
       <div className="grid gap-3 sm:grid-cols-2">
         <CallCard minutes={15} blurb="Quick chat — a question, an intro, a sanity check." calLink={profile.cal.fifteen} />
         <CallCard minutes={30} blurb="A real conversation — careers, projects, ideas." calLink={profile.cal.thirty} />
