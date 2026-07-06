@@ -30,7 +30,7 @@ export default function SpotifyBlock() {
     };
   }, [feed, dead, cache]);
 
-  if (dead || !cache.recent) return null;
+  if (dead || (!cache.recent && !cache.top)) return null;
   const tracks = cache[feed] ?? [];
 
   return (
@@ -41,6 +41,8 @@ export default function SpotifyBlock() {
             {FEEDS.map(([key, label]) => (
               <button
                 key={key}
+                type="button"
+                aria-pressed={feed === key}
                 onClick={() => setFeed(key)}
                 className={`transition-colors ${
                   feed === key ? "text-ink-body" : "text-ink-dim hover:text-ink-body"
