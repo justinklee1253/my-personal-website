@@ -81,7 +81,7 @@ export default function Training() {
               <img
                 key={src}
                 src={src}
-                alt=""
+                alt="training"
                 loading="lazy"
                 className="h-24 w-32 rounded-lg border border-edge object-cover"
               />
