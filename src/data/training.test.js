@@ -16,7 +16,7 @@ describe("training data invariants", () => {
 
   it("every log entry has a date and text", () => {
     for (const entry of training.log) {
-      expect(entry.date).toMatch(/^\d{4}(-\d{2})?$/);
+      expect(entry.date).toMatch(/^\d{4}-(0[1-9]|1[0-2])$/);
       expect(entry.text.length).toBeGreaterThan(0);
     }
   });
