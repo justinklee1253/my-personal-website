@@ -1,6 +1,7 @@
 import Page from "../components/Page.jsx";
 import { profile } from "../data/profile.js";
 import avatar from "../assets/avatar.jpg";
+import SpotifyBlock from "../components/SpotifyBlock.jsx";
 
 export default function Home() {
   return (
@@ -34,6 +35,7 @@ export default function Home() {
           );
         })}
       </ul>
+      <SpotifyBlock />
     </Page>
   );
 }
