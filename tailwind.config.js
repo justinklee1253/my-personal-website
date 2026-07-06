@@ -7,7 +7,7 @@ export default {
         canvas: "#0a0a0a",
         surface: "#111111",
         edge: "#222222",
-        ink: { DEFAULT: "#fafafa", body: "#8a8a8a", dim: "#5c5c5c" },
+        ink: { DEFAULT: "#fafafa", body: "#8a8a8a", dim: "#7a7a7a" },
         accent: "#9fe8b8",
       },
       fontFamily: {
