@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import SectionLabel from "./SectionLabel.jsx";
 import { relativeTime } from "../lib/relativeTime.js";
 import { useAlbumColor, wash } from "../lib/albumColor.js";
@@ -8,6 +9,17 @@ const FEEDS = [
   ["top", "Top Tracks"],
 ];
 
+const listVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.03 } },
+  exit: { opacity: 0, transition: { duration: 0.12 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 6 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.25, ease: "easeOut" } },
+};
+
 const cardFocus =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
@@ -16,7 +28,8 @@ function FeaturedTrack({ track, label }) {
   // the card displays artLarge — don't "fix" this to extract from artLarge
   const color = useAlbumColor(track.art);
   return (
-    <a
+    <motion.a
+      variants={itemVariants}
       href={track.url}
       target="_blank"
       rel="noopener noreferrer"
@@ -40,14 +53,14 @@ function FeaturedTrack({ track, label }) {
         </span>
         <span className="mt-1 block truncate font-mono text-xs text-ink-body">{track.artist}</span>
       </span>
-    </a>
+    </motion.a>
   );
 }
 
 function TrackRow({ track, rank }) {
   const color = useAlbumColor(track.art);
   return (
-    <li>
+    <motion.li variants={itemVariants}>
       <a
         href={track.url}
         target="_blank"
@@ -78,7 +91,7 @@ function TrackRow({ track, rank }) {
           <span className="font-mono text-[11px] text-ink-dim">{relativeTime(track.playedAt)}</span>
         )}
       </a>
-    </li>
+    </motion.li>
   );
 }
 
@@ -124,45 +137,63 @@ export default function SpotifyBlock() {
     <section>
       <SectionLabel>
         <span className="flex items-baseline justify-between">
-          <span className="flex gap-4">
+          <span className="-my-1 -ml-2.5 flex gap-1">
             {toggles.map(([key, label]) => (
-              <button
+              <motion.button
                 key={key}
                 type="button"
                 aria-pressed={feed === key}
                 onClick={() => setFeed(key)}
-                className={`transition-colors ${
-                  feed === key ? "text-ink-body" : "text-ink-dim hover:text-ink-body"
+                whileTap={{ scale: 0.96 }}
+                className={`relative rounded-full px-2.5 py-1 transition-colors ${cardFocus} ${
+                  feed === key ? "text-accent" : "text-ink-dim hover:text-ink-body"
                 }`}
               >
-                {label}
-              </button>
+                {feed === key && (
+                  <motion.span
+                    layoutId="spotify-feed-pill"
+                    className="absolute inset-0 rounded-full border border-accent/30 bg-accent/10"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span className="relative">{label}</span>
+              </motion.button>
             ))}
           </span>
           <span>via Spotify</span>
         </span>
       </SectionLabel>
-      {featured && (
-        <FeaturedTrack
-          track={featured}
-          label={
-            feed === "top"
-              ? "#1 This Month"
-              : featured.playedAt
-                ? `Last Played · ${relativeTime(featured.playedAt)}`
-                : "Last Played"
-          }
-        />
-      )}
-      <ul className="space-y-2">
-        {rows.map((t, i) => (
-          <TrackRow
-            key={t.url + (t.playedAt ?? i)}
-            track={t}
-            rank={feed === "top" ? i + 2 : null}
-          />
-        ))}
-      </ul>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={feed}
+          variants={listVariants}
+          initial="hidden"
+          animate="show"
+          exit="exit"
+        >
+          {featured && (
+            <FeaturedTrack
+              track={featured}
+              label={
+                feed === "top"
+                  ? "#1 This Month"
+                  : featured.playedAt
+                    ? `Last Played · ${relativeTime(featured.playedAt)}`
+                    : "Last Played"
+              }
+            />
+          )}
+          <ul className="space-y-2">
+            {rows.map((t, i) => (
+              <TrackRow
+                key={t.url + (t.playedAt ?? i)}
+                track={t}
+                rank={feed === "top" ? i + 2 : null}
+              />
+            ))}
+          </ul>
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 }
