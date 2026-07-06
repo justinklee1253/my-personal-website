@@ -3,7 +3,7 @@ import { trimRecent, trimTop } from "./lib/trim.mjs";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
 const FEEDS = {
   recent: "https://api.spotify.com/v1/me/player/recently-played?limit=5",
-  top: "https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=short_term",
+  top: "https://api.spotify.com/v1/me/top/tracks?limit=6&time_range=short_term",
 };
 
 async function getAccessToken() {

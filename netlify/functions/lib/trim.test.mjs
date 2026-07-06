@@ -24,6 +24,7 @@ describe("trimRecent", () => {
         title: "Afterglow",
         artist: "dami, guest",
         art: "https://img/64",
+        artLarge: "https://img/300",
         url: "https://open.spotify.com/track/x",
         playedAt: "2026-07-06T14:00:00.000Z",
       },
@@ -57,5 +58,6 @@ describe("trimTop", () => {
   it("tolerates missing album art", () => {
     const bare = { ...track, album: { images: [] } };
     expect(trimTop({ items: [bare] })[0].art).toBeNull();
+    expect(trimTop({ items: [bare] })[0].artLarge).toBeNull();
   });
 });
