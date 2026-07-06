@@ -1,9 +1,34 @@
 import Page from "../components/Page.jsx";
+import { profile } from "../data/profile.js";
+import avatar from "../assets/avatar.jpg";
 
 export default function Home() {
   return (
     <Page>
-      <p className="font-mono text-xs text-ink-dim">home</p>
+      <img
+        src={avatar}
+        alt="Justin Lee"
+        className="mt-6 h-16 w-16 rounded-xl border border-edge object-cover"
+      />
+      <p className="mt-8 font-mono text-xs text-accent">{profile.eyebrow}</p>
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        {profile.headline}
+      </h1>
+      <p className="mt-6 max-w-prose text-base leading-relaxed">{profile.bio}</p>
+      <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
+        {profile.links.map(({ label, href }) => (
+          <li key={label}>
+            <a
+              href={href}
+              target={href.startsWith("http") || href.endsWith(".pdf") ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              className="border-b border-edge pb-0.5 font-mono text-xs text-ink-body transition-colors hover:border-accent hover:text-accent"
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
     </Page>
   );
 }
