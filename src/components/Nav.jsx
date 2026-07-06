@@ -10,7 +10,10 @@ const links = [
 export default function Nav() {
   return (
     <header className="flex items-baseline justify-between py-8">
-      <NavLink to="/" className="font-mono text-sm text-ink">
+      <NavLink
+        to="/"
+        className="font-mono text-sm text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      >
         justin lee
       </NavLink>
       <nav className="flex gap-4 sm:gap-6">
@@ -20,7 +23,7 @@ export default function Nav() {
             to={to}
             end={to === "/"}
             className={({ isActive }) =>
-              `font-mono text-xs sm:text-[13px] transition-colors ${
+              `font-mono text-xs sm:text-[13px] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
                 isActive ? "text-accent" : "text-ink-dim hover:text-ink-body"
               }`
             }
