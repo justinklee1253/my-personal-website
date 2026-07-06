@@ -21,7 +21,7 @@ export default function About() {
       <SectionLabel>timeline</SectionLabel>
       <ol className="ml-1 space-y-7 border-l border-edge pl-6">
         {timeline.map((item) => (
-          <li key={item.company} className="relative">
+          <li key={`${item.company}-${item.years}`} className="relative">
             <span
               className={`absolute -left-[29px] top-1.5 h-2 w-2 rounded-full border ${
                 item.current ? "border-accent bg-accent" : "border-ink-dim bg-canvas"
