@@ -33,6 +33,18 @@ describe("trimRecent", () => {
   it("returns [] for missing items", () => {
     expect(trimRecent({})).toEqual([]);
   });
+
+  it("drops episode-shaped items instead of crashing", () => {
+    const episode = { name: "Some Podcast Ep" }; // no artists/album/external_urls
+    const out = trimRecent({
+      items: [
+        { track: episode, played_at: "2026-07-06T14:00:00.000Z" },
+        { track, played_at: "2026-07-06T13:00:00.000Z" },
+      ],
+    });
+    expect(out).toHaveLength(1);
+    expect(out[0].title).toBe("Afterglow");
+  });
 });
 
 describe("trimTop", () => {

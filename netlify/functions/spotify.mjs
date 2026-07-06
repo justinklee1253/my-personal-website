@@ -43,7 +43,8 @@ export default async function handler(req) {
       },
     });
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
+    console.error("spotify function error:", err);
+    return new Response(JSON.stringify({ error: "upstream_error" }), {
       status: 502,
       headers: { "Content-Type": "application/json" },
     });

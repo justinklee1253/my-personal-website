@@ -27,6 +27,11 @@ http
     const url = new URL(req.url, redirect);
     if (url.pathname !== "/callback") return res.end();
     const code = url.searchParams.get("code");
+    if (!code) {
+      console.error("Authorization failed or was denied.");
+      res.end("Failed — check your terminal.");
+      return process.exit(1);
+    }
     const auth = Buffer.from(`${id}:${secret}`).toString("base64");
     const r = await fetch("https://accounts.spotify.com/api/token", {
       method: "POST",
