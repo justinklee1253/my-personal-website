@@ -54,10 +54,11 @@ export function albumColor(src) {
 export function useAlbumColor(src) {
   const [color, setColor] = useState(null);
   useEffect(() => {
+    setColor(null); // clear stale tint immediately when the track changes
     if (!src) return undefined;
     let on = true;
     albumColor(src).then((c) => {
-      if (on && c) setColor(c);
+      if (on) setColor(c);
     });
     return () => {
       on = false;

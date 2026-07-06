@@ -12,6 +12,8 @@ const cardFocus =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
 function FeaturedTrack({ track, label }) {
+  // color comes from the small thumb (16x16 downsample makes it sufficient);
+  // the card displays artLarge — don't "fix" this to extract from artLarge
   const color = useAlbumColor(track.art);
   return (
     <a
