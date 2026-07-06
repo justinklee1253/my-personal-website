@@ -5,7 +5,7 @@ export default function Page({ children }) {
   const ref = useRef(null);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     ref.current?.focus({ preventScroll: true });
   }, []);
 
