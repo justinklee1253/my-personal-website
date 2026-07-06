@@ -8,7 +8,7 @@ export const profile = {
   links: [
     { label: "github", href: "https://github.com/justinklee1253" },
     { label: "linkedin", href: "https://www.linkedin.com/in/justinklee1253/" },
-    { label: "resume", href: "/resumecv.pdf" },
+    { label: "resume", href: "/Justin_K_Lee_SWE_26_Hire.pdf" },
     { label: "email", href: "mailto:justinklee.dev@gmail.com" },
   ],
   // Cal.com booking links, e.g. "justinlee/15min" — null hides the popup and
