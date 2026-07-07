@@ -4,6 +4,7 @@ import Page from "../components/Page.jsx";
 import SectionLabel from "../components/SectionLabel.jsx";
 import { training } from "../data/training.js";
 import WhoopFeed from "../components/WhoopFeed.jsx";
+import WhoopComingSoon from "../components/WhoopComingSoon.jsx";
 
 function GoalBar({ goal }) {
   const ref = useRef(null);
@@ -59,7 +60,8 @@ export default function Training() {
 
       <GoalBar goal={training.goal} />
 
-      <WhoopFeed />
+      {/* Live feed locally; "coming soon" on deployed builds until WHOOP API access is approved */}
+      {import.meta.env.DEV ? <WhoopFeed /> : <WhoopComingSoon />}
 
       {training.photos.length > 0 && (
         <>
