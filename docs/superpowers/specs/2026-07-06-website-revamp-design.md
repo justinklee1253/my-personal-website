@@ -37,6 +37,7 @@ Rare and purposeful; framer-motion. The complete motion budget:
 - Photo fan: straighten + slight lift on hover (About).
 - Goal progress bar: fills on scroll-into-view (Training).
 - Page transitions: soft fade (~150ms).
+- Spotify feed toggle (amended 2026-07-06, owner-approved): accent pill slides between tabs (layoutId spring), press dip on tap, rows stagger-rise ~30ms on switch — `initial={false}` so nothing plays on page load.
 - Link/nav hovers: color transitions only.
 Nothing else animates. No hover-scaling body text, no perpetual animations.
 
