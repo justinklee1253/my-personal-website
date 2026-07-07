@@ -27,7 +27,7 @@ function GoalBar({ goal }) {
         />
       </div>
       <p className="mt-2.5 font-mono text-[11px] text-ink-dim">
-        {pct}% — updated when it happens, not before
+        {pct}%
       </p>
     </div>
   );

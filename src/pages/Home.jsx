@@ -1,23 +1,23 @@
 import Page from "../components/Page.jsx";
 import { profile } from "../data/profile.js";
-import avatar from "../assets/avatar.jpg";
 import SpotifyBlock from "../components/SpotifyBlock.jsx";
+import Typewriter from "../components/Typewriter.jsx";
 
 export default function Home() {
   return (
     <Page>
-      <img
-        src={avatar}
-        alt="Justin Lee"
-        width={64}
-        height={64}
-        className="mt-6 h-16 w-16 rounded-xl border border-edge object-cover"
-      />
       <p className="mt-8 font-mono text-xs text-accent">{profile.eyebrow}</p>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-        {profile.headline}
+      <h1
+        aria-label="hi i'm Justin"
+        className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl"
+      >
+        <Typewriter text="hi i'm Justin" />
       </h1>
-      <p className="mt-6 text-base leading-relaxed">{profile.bio}</p>
+      {profile.bio.map((paragraph, i) => (
+        <p key={i} className="mt-6 text-base leading-relaxed">
+          {paragraph}
+        </p>
+      ))}
       <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
         {profile.links.map(({ label, href }) => {
           const external = href.startsWith("http") || href.endsWith(".pdf");

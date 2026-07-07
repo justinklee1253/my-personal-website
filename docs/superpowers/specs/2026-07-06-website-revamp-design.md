@@ -30,14 +30,17 @@ The design must feel **sleek, minimal, intentional, and professionally playful**
 
 ### Color
 - Grays do hierarchy: `#fafafa` (headings) → `#8a8a8a` (body) → `#5c5c5c` (metadata) → `#222` (borders) → `#111` (card surfaces).
-- **One accent: muted green `#9fe8b8`**, budgeted strictly. Sanctioned uses: active nav item, current-position timeline dot, latest changelog entry dot, goal progress bar, link hover states, eyebrow labels. If a screen works without the accent, it goes without.
+- **One accent: muted navy `#5a7dc2`** (amended 2026-07-07, owner-approved — was green `#9fe8b8`; true navy fails contrast on the near-black canvas at ~1.2:1, so the accent is the deepest navy that clears WCAG AA, 4.9:1), budgeted strictly. Sanctioned uses: active nav item, current-position timeline dot, latest changelog entry dot, goal progress bar, link hover states, eyebrow labels. If a screen works without the accent, it goes without.
 
 ### Motion
 Rare and purposeful; framer-motion. The complete motion budget:
-- Photo fan: straighten + slight lift on hover (About).
+- Photo fan (amended 2026-07-07, owner-approved): cards sweep in from off-screen left one by one on About load (spring, ~0.12s stagger); hover straightens + lifts + flips a card to its mono date/location/caption back; tap pins the flip on touch.
 - Goal progress bar: fills on scroll-into-view (Training).
 - Page transitions: soft fade (~150ms).
 - Spotify feed toggle (amended 2026-07-06, owner-approved): accent pill slides between tabs (layoutId spring), press dip on tap, rows stagger-rise ~30ms on switch — `initial={false}` so nothing plays on page load.
+- Nav active pill (amended 2026-07-07, owner-approved): accent pill slides between nav links on route change (layoutId spring), press dip on tap; nothing plays on first load.
+- Row hovers (amended 2026-07-07, owner-approved): timeline rows, project rows, and Spotify cards (featured + track rows) nudge right 4px + scale ~1.015 on hover, 200ms ease-out, left origin; text brightens where applicable.
+- "via Spotify" label (amended 2026-07-07, owner-approved): links to the owner's Spotify profile; on hover the text turns Spotify-brand green with a soft opacity pulse. Renders as a plain span until `profile.spotify` is set.
 - Link/nav hovers: color transitions only.
 Nothing else animates. No hover-scaling body text, no perpetual animations.
 
@@ -52,7 +55,7 @@ Four real routes (React Router):
 /contact     contact    — channel cards, book-a-call
 ```
 
-Nav: mono, top of every page — name left (`justin lee`), links right, active page in accent green. No hamburger gymnastics: the four links fit on mobile as-is (smaller size).
+Nav: mono, top of every page — name left (`justin lee`), links right, active page in an accent pill (same treatment as the Spotify feed toggle). No hamburger gymnastics: the four links fit on mobile as-is (smaller size).
 
 **No copy repeats across pages.** The bio paragraph exists on Home only.
 
@@ -77,7 +80,7 @@ Single narrow column, top to bottom:
 ### 4.2 About
 1. Nav.
 2. Eyebrow `about` + heading `Who I am.` — no bio paragraph (Home owns it).
-3. **Photo fan hero**: 4 travel/candid photos spanning the content width, each slightly rotated (−5° to +5°), overlapping edges, rounded corners, subtle border. Hover: straighten to 0° + lift. This is the page's one playful moment. (Inspired by reference, not copied: our photos are larger-radius, on the site grid, with mono caption potential later.)
+3. **Photo fan hero**: 4 travel/candid photos spanning the content width, each slightly rotated (−5° to +5°), overlapping edges, rounded corners, subtle border. On load: cards sweep in from the left screen edge one by one. Hover: straighten to 0° + lift + 3D flip to a text back (mono date / location / caption on the `#111` surface); tap pins the flip on touch. Flip text lives in `src/data/fanPhotos.js`. This is the page's one playful moment. (Inspired by reference, not copied: our photos are larger-radius, on the site grid, mono captions on the card backs.)
 4. Section label `timeline` (mono, top-bordered), then entries — one line each:
    - Layout: company (Inter 600) · role (Inter italic, gray) · years (mono, right-aligned) · one lowercase human note below (no résumé bullets — the PDF résumé carries the detail).
    - Entries: **Rokt** (Software Engineer, 2025–now, green dot) → **Content Academy** (Lead Software Engineer) → **Teamworks** (SWE Intern, Summer 2024) → **LG Electronics** (SWE Intern, Summer 2023) → **Boston College** (B.A. Computer Science, 2021–2025).
@@ -118,6 +121,7 @@ src/data/
                     goal: { label, current, target, unit },
                     log: [{ date: 'YYYY-MM', text, highlight? }],
                     photos: [] }
+  fanPhotos.js  — [{ src, date, location, caption }] (About fan + flip text)
 ```
 
 **Future-sync seam (v2, not built now):** the `training.js` shapes are the contract. A future Whoop/Strava integration (Justin has a new Whoop) would be a scheduled function writing the same record shapes — no page changes required. A possible "today's recovery" line from Whoop is explicitly v2.

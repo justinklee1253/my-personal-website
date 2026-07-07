@@ -3,10 +3,7 @@ import SectionLabel from "../components/SectionLabel.jsx";
 import PhotoFan from "../components/PhotoFan.jsx";
 import { timeline } from "../data/timeline.js";
 import { projects } from "../data/projects.js";
-import fan1 from "../assets/fan/fan-1.jpg";
-import fan2 from "../assets/fan/fan-2.jpg";
-
-const photos = [fan1, fan2]; // grows to 4 when Justin supplies travel candids
+import { fanPhotos } from "../data/fanPhotos.js";
 
 export default function About() {
   return (
@@ -16,25 +13,35 @@ export default function About() {
         Who I am.
       </h1>
 
-      <PhotoFan photos={photos} />
+      <PhotoFan photos={fanPhotos} />
 
       <SectionLabel>timeline</SectionLabel>
       <ol className="ml-1 space-y-7 border-l border-edge pl-6">
         {timeline.map((item) => (
-          <li key={`${item.company}-${item.years}`} className="relative">
+          <li
+            key={`${item.company}-${item.years}`}
+            className="group relative origin-left transition-transform duration-200 ease-out hover:translate-x-1 hover:scale-[1.015]"
+          >
             <span
-              className={`absolute -left-[29px] top-1.5 h-2 w-2 rounded-full border ${
-                item.current ? "border-accent bg-accent" : "border-ink-dim bg-canvas"
-              }`}
+              className="absolute -left-[29px] top-1.5 h-2 w-2 rounded-full border transition-transform duration-200 ease-out group-hover:scale-125"
+              style={{
+                backgroundColor: item.color,
+                borderColor: item.color,
+                boxShadow: `0 0 0 3px ${item.color}3d, 0 0 16px ${item.color}33`,
+              }}
             />
             <div className="flex flex-wrap items-baseline gap-x-3">
               <span className="font-semibold text-ink">{item.company}</span>
-              <span className="text-sm italic text-ink-body">{item.role}</span>
-              <span className="ml-auto font-mono text-xs text-ink-dim">
+              <span className="text-sm italic text-ink-body transition-colors duration-200 group-hover:text-ink">
+                {item.role}
+              </span>
+              <span className="ml-auto font-mono text-xs text-ink-dim transition-colors duration-200 group-hover:text-ink-body">
                 {item.years}
               </span>
             </div>
-            <p className="mt-1 text-sm text-ink-body">{item.note}</p>
+            <p className="mt-1 text-sm text-ink-body transition-colors duration-200 group-hover:text-ink">
+              {item.note}
+            </p>
           </li>
         ))}
       </ol>
@@ -42,14 +49,19 @@ export default function About() {
       <SectionLabel>projects</SectionLabel>
       <ul>
         {projects.map((p) => (
-          <li key={p.name} className="border-b border-edge/60 py-5 first:pt-0">
+          <li
+            key={p.name}
+            className="group origin-left border-b border-edge/60 py-5 transition-transform duration-200 ease-out first:pt-0 hover:translate-x-1 hover:scale-[1.015] hover:border-edge"
+          >
             <div className="flex flex-wrap items-baseline gap-x-3">
               <span className="font-semibold text-ink">{p.name}</span>
-              <span className="ml-auto font-mono text-xs text-ink-dim">
+              <span className="ml-auto font-mono text-xs text-ink-dim transition-colors duration-200 group-hover:text-ink-body">
                 {p.stack}
               </span>
             </div>
-            <p className="mt-1.5 text-sm leading-relaxed">{p.description}</p>
+            <p className="mt-1.5 text-sm leading-relaxed transition-colors duration-200 group-hover:text-ink">
+              {p.description}
+            </p>
             <p className="mt-2 flex gap-4 font-mono text-xs">
               <a
                 href={p.github}

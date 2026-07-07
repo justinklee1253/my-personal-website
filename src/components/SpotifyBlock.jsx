@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import SectionLabel from "./SectionLabel.jsx";
 import { relativeTime } from "../lib/relativeTime.js";
 import { useAlbumColor, wash } from "../lib/albumColor.js";
+import { profile } from "../data/profile.js";
+
+const SPOTIFY_GREEN = "#1DB954";
 
 const FEEDS = [
   ["recent", "Recently Played"],
@@ -65,8 +68,13 @@ function FeaturedTrack({ track, label }) {
       href={track.url}
       target="_blank"
       rel="noopener noreferrer"
+      whileHover={{ x: 4, scale: 1.015 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
       className={`group mb-3 flex items-center gap-5 rounded-xl border border-edge bg-surface p-5 transition-colors duration-500 ${cardFocus}`}
-      style={color ? { backgroundColor: wash(color, 0.22), borderColor: wash(color, 0.4) } : undefined}
+      style={{
+        originX: 0,
+        ...(color && { backgroundColor: wash(color, 0.22), borderColor: wash(color, 0.4) }),
+      }}
     >
       {(track.artLarge ?? track.art) && (
         <img
@@ -92,7 +100,12 @@ function FeaturedTrack({ track, label }) {
 function TrackRow({ track, rank }) {
   const color = useAlbumColor(track.art);
   return (
-    <motion.li variants={itemVariants}>
+    <motion.li
+      variants={itemVariants}
+      whileHover={{ x: 4, scale: 1.015 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      style={{ originX: 0 }}
+    >
       <a
         href={track.url}
         target="_blank"
@@ -202,7 +215,23 @@ export default function SpotifyBlock() {
               </motion.button>
             ))}
           </span>
-          <span>via Spotify</span>
+          {profile.spotify ? (
+            <motion.a
+              href={profile.spotify}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ color: SPOTIFY_GREEN, opacity: [1, 0.55, 1] }}
+              transition={{
+                color: { duration: 0.2 },
+                opacity: { duration: 1.2, repeat: Infinity, ease: "easeInOut" },
+              }}
+              className={`rounded-full ${cardFocus}`}
+            >
+              via Spotify
+            </motion.a>
+          ) : (
+            <span>via Spotify</span>
+          )}
         </span>
       </SectionLabel>
       <AnimatePresence mode="wait" initial={false}>
