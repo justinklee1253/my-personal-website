@@ -9,6 +9,11 @@
   directory = "netlify/functions"
 
 [[redirects]]
+  from = "/resumecv.pdf"
+  to = "/Justin_K_Lee_SWE_26_Hire.pdf"
+  status = 301
+
+[[redirects]]
   from = "/api/spotify"
   to = "/.netlify/functions/spotify"
   status = 200
