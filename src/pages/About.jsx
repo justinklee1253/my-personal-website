@@ -59,9 +59,17 @@ export default function About() {
                 {p.stack}
               </span>
             </div>
-            <p className="mt-1.5 text-sm leading-relaxed transition-colors duration-200 group-hover:text-ink">
-              {p.description}
-            </p>
+            {Array.isArray(p.description) ? (
+              <ul className="mt-1.5 list-disc space-y-1 pl-5 text-sm leading-relaxed transition-colors duration-200 group-hover:text-ink">
+                {p.description.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-1.5 text-sm leading-relaxed transition-colors duration-200 group-hover:text-ink">
+                {p.description}
+              </p>
+            )}
             <p className="mt-2 flex gap-4 font-mono text-xs">
               <a
                 href={p.github}
