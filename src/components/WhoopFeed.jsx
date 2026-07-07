@@ -87,14 +87,18 @@ export default function WhoopFeed() {
   }, []);
 
   return (
-    <>
+    <section aria-busy={activities === null && !failed}>
       <SectionLabel>log · via WHOOP</SectionLabel>
       {failed && (
-        <p className="font-mono text-xs text-ink-dim">Activity feed unavailable.</p>
+        <p role="status" aria-live="polite" className="font-mono text-xs text-ink-dim">
+          Activity feed unavailable.
+        </p>
       )}
       {!failed && activities === null && <Skeleton />}
       {!failed && activities !== null && activities.length === 0 && (
-        <p className="font-mono text-xs text-ink-dim">No activities in the last 30 days.</p>
+        <p role="status" aria-live="polite" className="font-mono text-xs text-ink-dim">
+          No activities in the last 30 days.
+        </p>
       )}
       {!failed && activities !== null && activities.length > 0 && (
         <>
@@ -104,16 +108,17 @@ export default function WhoopFeed() {
             ))}
           </ul>
           {visible < activities.length && (
-            <button
+            <motion.button
               type="button"
+              whileTap={{ scale: 0.96 }}
               onClick={() => setVisible((v) => v + PAGE_SIZE)}
               className="mt-5 rounded-full border border-edge px-4 py-1.5 font-mono text-xs text-ink-dim transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               Load more
-            </button>
+            </motion.button>
           )}
         </>
       )}
-    </>
+    </section>
   );
 }
