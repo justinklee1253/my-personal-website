@@ -1,27 +1,12 @@
 // netlify/functions/whoop.mjs
+import { getStore } from "@netlify/blobs";
+import { getAccessToken } from "./lib/whoop-token.mjs";
 import { trimWorkouts } from "./lib/whoop-trim.mjs";
 
-const TOKEN_URL = "https://api.prod.whoop.com/oauth/oauth2/token";
 const WORKOUT_URL = "https://api.prod.whoop.com/developer/v2/activity/workout";
 const WINDOW_DAYS = 30;
 const PAGE_LIMIT = 25;
 const MAX_PAGES = 10; // safety cap: 250 workouts / 30 days is far more than real
-
-async function getAccessToken() {
-  const res = await fetch(TOKEN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "refresh_token",
-      refresh_token: process.env.WHOOP_REFRESH_TOKEN,
-      client_id: process.env.WHOOP_CLIENT_ID,
-      client_secret: process.env.WHOOP_CLIENT_SECRET,
-      scope: "offline",
-    }),
-  });
-  if (!res.ok) throw new Error(`token exchange failed: ${res.status}`);
-  return (await res.json()).access_token;
-}
 
 async function fetchAllWorkouts(token) {
   const start = new Date(Date.now() - WINDOW_DAYS * 86400000).toISOString();
@@ -44,7 +29,8 @@ async function fetchAllWorkouts(token) {
 
 export default async function handler() {
   try {
-    const token = await getAccessToken();
+    const store = getStore("whoop-auth");
+    const token = await getAccessToken({ store, env: process.env, fetch });
     const records = await fetchAllWorkouts(token);
     const activities = trimWorkouts({ records });
     return new Response(JSON.stringify({ activities }), {
