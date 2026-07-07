@@ -11,7 +11,9 @@ export const profile = {
     { label: "resume", href: "/Justin_K_Lee_SWE_26_Hire.pdf" },
     { label: "email", href: "mailto:justinklee.dev@gmail.com" },
   ],
-  // Cal.com booking links, e.g. "justinlee/15min" — null hides the popup and
-  // falls back to a mailto card (see Contact page). Justin fills these in.
-  cal: { fifteen: null, thirty: null },
+  // Cal.com booking links, e.g. "justinlee/15min" — null falls back to mailto.
+  cal: {
+    fifteen: "justin-lee-5xbkk4/15min",
+    thirty: "justin-lee-5xbkk4/30min",
+  },
 };
