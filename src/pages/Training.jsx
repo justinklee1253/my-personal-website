@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import Page from "../components/Page.jsx";
 import SectionLabel from "../components/SectionLabel.jsx";
 import { training } from "../data/training.js";
+import WhoopFeed from "../components/WhoopFeed.jsx";
 
 function GoalBar({ goal }) {
   const ref = useRef(null);
@@ -58,20 +59,7 @@ export default function Training() {
 
       <GoalBar goal={training.goal} />
 
-      <SectionLabel>log</SectionLabel>
-      <ol className="ml-1 space-y-5 border-l border-edge pl-6">
-        {training.log.map((entry, i) => (
-          <li key={entry.date + entry.text} className="relative">
-            <span
-              className={`absolute -left-[29px] top-1.5 h-2 w-2 rounded-full border ${
-                i === 0 ? "border-accent bg-accent" : "border-ink-dim bg-canvas"
-              }`}
-            />
-            <p className="font-mono text-[11px] text-ink-dim">{entry.date}</p>
-            <p className="mt-0.5 text-sm text-ink-body">{entry.text}</p>
-          </li>
-        ))}
-      </ol>
+      <WhoopFeed />
 
       {training.photos.length > 0 && (
         <>
