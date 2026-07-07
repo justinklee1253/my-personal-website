@@ -19,6 +19,11 @@
   status = 200
 
 [[redirects]]
+  from = "/api/whoop"
+  to = "/.netlify/functions/whoop"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
