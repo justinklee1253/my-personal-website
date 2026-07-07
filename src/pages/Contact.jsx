@@ -82,9 +82,6 @@ export default function Contact() {
         <CallCard minutes={30} blurb="A real conversation — careers, projects, ideas." calLink={profile.cal.thirty} />
       </div>
 
-      <footer className="mt-20 border-t border-edge pt-6 font-mono text-xs text-ink-dim">
-        © {new Date().getFullYear()} justin lee
-      </footer>
     </Page>
   );
 }

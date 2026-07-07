@@ -104,7 +104,7 @@ Nav label: `training`. Page eyebrow: `off hours`. Heading: `The training log.`
 1. Eyebrow `contact` + heading + one-line intro ("Let's talk" energy, not desperate).
 2. **Channel cards** — three: Email (`justinklee.dev@gmail.com`, mailto), LinkedIn (`in/justinklee1253`), GitHub (`justinklee1253`). Card: icon, channel name (Inter 500), handle (mono, gray). Subtle border, hover border-lightens.
 3. **`book_a_call`** section — two cards: **15 min** (quick chat) and **30 min** (real conversation). Each opens the corresponding Cal.com booking (embed popup via `@calcom/embed-react`; plain links as fallback). No 60-min tier in v1.
-4. Minimal footer: mono, small: name + year. No icon farm.
+4. Minimal footer (amended 2026-07-07, owner-approved): site-wide, centered, mono, small — `© <year> Justin Lee. All rights reserved.` — mounted once in App below the routes, pinned to the viewport bottom on short pages. No icon farm.
 
 **Setup task for Justin:** create a free Cal.com account with two event types (15 min, 30 min) and provide the two booking URLs.
 
