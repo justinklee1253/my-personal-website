@@ -1,5 +1,5 @@
 export const training = {
-  lede: "Lifting since college, running when the weather cooperates. These numbers are real and occasionally improving.",
+  lede: "Lifting since summer 2022, hooping is my main form of cardio. These numbers are real and occasionally improving.",
   prs: [
     { label: "squat", value: 315, unit: "lbs" },
     { label: "bench @ 185 bw", value: 255, unit: "lbs" },
