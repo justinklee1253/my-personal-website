@@ -13,12 +13,10 @@ export default function WhoopComingSoon() {
         transition={{ duration: 0.25, ease: "easeOut" }}
         className="rounded-xl border border-edge bg-surface p-8 text-center"
       >
-        <p className="font-mono text-xs text-accent">coming soon</p>
+        <p className="font-mono text-xs text-accent">COMING SOON</p>
         <p className="mt-2 text-sm leading-relaxed text-ink-body">
-          Live activity — workouts, hoops, sauna — syncing straight from my WHOOP.
-        </p>
-        <p className="mt-1 font-mono text-[11px] text-ink-dim">
-          Waiting on WHOOP API access approval.
+          Live activities: my workouts, hoop sessions, sauna and more, syncing
+          straight from my WHOOP.
         </p>
       </motion.div>
     </section>

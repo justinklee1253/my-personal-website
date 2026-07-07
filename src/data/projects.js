@@ -1,8 +1,10 @@
 export const projects = [
   {
     name: "Content Academy",
-    description:
-      "Gamified analytics platform for content creators — 750+ active users syncing real-time Instagram data.",
+    description: [
+      "Gamified analytics platform for content creators",
+      "750+ active users syncing real-time Instagram data",
+    ],
     stack: "node · postgres · redis",
     github: "https://github.com/justinklee1253/ca-3.0-frontend",
     live: "https://app.contentacademy.io/",

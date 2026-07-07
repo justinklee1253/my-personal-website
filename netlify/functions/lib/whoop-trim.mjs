@@ -12,10 +12,26 @@ export const SPORT_NAMES = {
 
 const KJ_PER_KCAL = 4.184;
 
+// Friendly display names for WHOOP sport slugs (keyed by normalized slug).
+// Only needed where the desired label differs from the prettified slug.
+const SPORT_OVERRIDES = {
+  weightlifting: "lift",
+  weightlifting_msk: "lift",
+  infrared_sauna: "sauna",
+};
+
+// Turn a raw WHOOP sport slug (e.g. "weightlifting_msk", "infrared-sauna")
+// into a lowercase, human-friendly label.
+function displaySport(raw) {
+  if (!raw) return "activity";
+  const key = raw.trim().toLowerCase().replace(/[\s-]+/g, "_");
+  return SPORT_OVERRIDES[key] ?? key.replace(/_+/g, " ").trim();
+}
+
 function shape(w) {
   if (!w?.id || !w.start || !w.end) return null;
   const durationMin = Math.round((new Date(w.end) - new Date(w.start)) / 60000);
-  const sport = w.sport_name || SPORT_NAMES[w.sport_id] || "Activity";
+  const sport = displaySport(w.sport_name || SPORT_NAMES[w.sport_id]);
   const score = w.score_state === "SCORED" ? w.score : null;
   return {
     id: String(w.id),
