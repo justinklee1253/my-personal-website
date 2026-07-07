@@ -16,7 +16,7 @@ describe("trimWorkouts", () => {
     expect(trimWorkouts({ records: [scored] })).toEqual([
       {
         id: "1043",
-        sport: "Sauna",
+        sport: "sauna",
         start: "2026-07-06T14:00:00.000Z",
         durationMin: 72,
         strain: 8.4,
@@ -24,6 +24,21 @@ describe("trimWorkouts", () => {
         calories: 600, // 2510 / 4.184 = 599.9 -> 600
       },
     ]);
+  });
+
+  it("maps weightlifting slugs to 'lift'", () => {
+    const lift = { ...scored, sport_id: 45, sport_name: "weightlifting_msk" };
+    expect(trimWorkouts({ records: [lift] })[0].sport).toBe("lift");
+  });
+
+  it("maps infrared-sauna slugs to 'sauna'", () => {
+    const infrared = { ...scored, sport_id: 233, sport_name: "infrared-sauna" };
+    expect(trimWorkouts({ records: [infrared] })[0].sport).toBe("sauna");
+  });
+
+  it("prettifies and lowercases unknown slugs", () => {
+    const hiit = { ...scored, sport_id: 999, sport_name: "high_intensity_interval_training" };
+    expect(trimWorkouts({ records: [hiit] })[0].sport).toBe("high intensity interval training");
   });
 
   it("returns null stats for an unscored workout", () => {
@@ -37,12 +52,12 @@ describe("trimWorkouts", () => {
 
   it("falls back to the sport-id map when sport_name is missing", () => {
     const noName = { ...scored, sport_name: undefined };
-    expect(trimWorkouts({ records: [noName] })[0].sport).toBe(SPORT_NAMES[233]);
+    expect(trimWorkouts({ records: [noName] })[0].sport).toBe(SPORT_NAMES[233].toLowerCase());
   });
 
-  it("falls back to 'Activity' for an unknown sport with no name", () => {
+  it("falls back to 'activity' for an unknown sport with no name", () => {
     const unknown = { ...scored, sport_id: 99999, sport_name: undefined };
-    expect(trimWorkouts({ records: [unknown] })[0].sport).toBe("Activity");
+    expect(trimWorkouts({ records: [unknown] })[0].sport).toBe("activity");
   });
 
   it("sorts newest-first", () => {

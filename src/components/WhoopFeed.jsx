@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import SectionLabel from "./SectionLabel.jsx";
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 4;
 
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -27,8 +27,10 @@ function Stat({ label, value }) {
 function ActivityCard({ a }) {
   return (
     <motion.li
+      layout
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -6, transition: { duration: 0.18 } }}
       transition={{ duration: 0.25, ease: "easeOut" }}
       className="rounded-xl border border-edge bg-surface p-4 sm:p-5"
     >
@@ -66,10 +68,16 @@ function Skeleton() {
   );
 }
 
+const pillClass =
+  "rounded-full border border-edge px-4 py-1.5 font-mono text-xs text-ink-dim transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+const linkClass =
+  "font-mono text-xs text-ink-dim transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
+
 export default function WhoopFeed() {
   const [activities, setActivities] = useState(null); // null = loading
   const [failed, setFailed] = useState(false);
   const [visible, setVisible] = useState(PAGE_SIZE);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -86,8 +94,15 @@ export default function WhoopFeed() {
     };
   }, []);
 
+  const showMore = () => setVisible((v) => Math.min(v + PAGE_SIZE, activities.length));
+  const showLess = () => setVisible((v) => Math.max(PAGE_SIZE, v - PAGE_SIZE));
+  const reset = () => {
+    setVisible(PAGE_SIZE);
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
-    <section aria-busy={activities === null && !failed}>
+    <section ref={sectionRef} aria-busy={activities === null && !failed}>
       <SectionLabel>log · via WHOOP</SectionLabel>
       {failed && (
         <p role="status" aria-live="polite" className="font-mono text-xs text-ink-dim">
@@ -103,19 +118,42 @@ export default function WhoopFeed() {
       {!failed && activities !== null && activities.length > 0 && (
         <>
           <ul className="space-y-3">
-            {activities.slice(0, visible).map((a) => (
-              <ActivityCard key={a.id} a={a} />
-            ))}
+            <AnimatePresence initial={false}>
+              {activities.slice(0, visible).map((a) => (
+                <ActivityCard key={a.id} a={a} />
+              ))}
+            </AnimatePresence>
           </ul>
-          {visible < activities.length && (
-            <motion.button
-              type="button"
-              whileTap={{ scale: 0.96 }}
-              onClick={() => setVisible((v) => v + PAGE_SIZE)}
-              className="mt-5 rounded-full border border-edge px-4 py-1.5 font-mono text-xs text-ink-dim transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-            >
-              Load more
-            </motion.button>
+          {(visible < activities.length || visible > PAGE_SIZE) && (
+            <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+              {visible < activities.length && (
+                <motion.button
+                  type="button"
+                  whileTap={{ scale: 0.96 }}
+                  onClick={showMore}
+                  className={pillClass}
+                >
+                  Load more
+                </motion.button>
+              )}
+              {visible > PAGE_SIZE && (
+                <span className="flex items-center gap-3">
+                  <button type="button" onClick={showLess} className={linkClass}>
+                    Show less
+                  </button>
+                  {visible > PAGE_SIZE * 2 && (
+                    <>
+                      <span aria-hidden="true" className="font-mono text-xs text-ink-dim/50">
+                        ·
+                      </span>
+                      <button type="button" onClick={reset} className={linkClass}>
+                        Reset
+                      </button>
+                    </>
+                  )}
+                </span>
+              )}
+            </div>
           )}
         </>
       )}
