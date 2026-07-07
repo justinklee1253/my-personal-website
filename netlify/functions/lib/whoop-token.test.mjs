@@ -118,4 +118,43 @@ describe("getAccessToken", () => {
       /400/
     );
   });
+
+  it("reads with strong consistency so a concurrent rotation is seen (no stale 502)", async () => {
+    // Model Netlify Blobs' default eventual consistency: only strong reads see
+    // the latest write; eventual reads return a stale snapshot.
+    let live = { refreshToken: "R0" };
+    const store = {
+      get: async (_key, opts) =>
+        opts?.consistency === "strong" ? live : { refreshToken: "R0" },
+      setJSON: async (_key, value) => {
+        live = value;
+      },
+    };
+    const fetch = async () => {
+      // a concurrent request already rotated R0 -> R1 and wrote fresh state
+      live = { refreshToken: "R1", accessToken: "A1", accessTokenExpiry: T + 3_600_000 };
+      return { ok: false, status: 400, text: async () => "invalid_grant" };
+    };
+    // Only recoverable if the re-read after the 400 is strongly consistent.
+    const token = await getAccessToken({ store, env, fetch, now });
+    expect(token).toBe("A1");
+  });
+
+  it("retries the blob write once if the first write fails", async () => {
+    let writes = 0;
+    let saved = null;
+    const store = {
+      get: async () => ({ refreshToken: "R0" }),
+      setJSON: async (_key, value) => {
+        writes += 1;
+        if (writes === 1) throw new Error("blob unavailable");
+        saved = value;
+      },
+    };
+    const fetch = okToken({ access: "A1", refresh: "R1" });
+    const token = await getAccessToken({ store, env, fetch, now });
+    expect(token).toBe("A1");
+    expect(writes).toBe(2);
+    expect(saved.refreshToken).toBe("R1");
+  });
 });

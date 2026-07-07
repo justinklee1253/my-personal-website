@@ -10,6 +10,10 @@ const STORE_KEY = "token";
 // token that expires mid-call
 const EXPIRY_MARGIN_MS = 60_000;
 const DEFAULT_TTL_S = 3600;
+// Netlify Blobs is eventually consistent by default; read strongly so the
+// re-read after a 400 reliably observes a token a concurrent request just
+// rotated, instead of a stale snapshot.
+const READ_OPTS = { type: "json", consistency: "strong" };
 
 function isFresh(state, nowMs) {
   return (
@@ -18,6 +22,18 @@ function isFresh(state, nowMs) {
     state.accessTokenExpiry &&
     nowMs < state.accessTokenExpiry - EXPIRY_MARGIN_MS
   );
+}
+
+async function persist(store, value) {
+  try {
+    await store.setJSON(STORE_KEY, value);
+  } catch {
+    // Last-writer-wins (no CAS) — safe here because WHOOP's single-use tokens
+    // make a genuine concurrent double-write practically impossible. Retry once:
+    // the rotation already happened at WHOOP, so losing this write would brick
+    // the integration until a manual re-seed.
+    await store.setJSON(STORE_KEY, value);
+  }
 }
 
 async function refresh({ store, env, fetch, now, refreshToken }) {
@@ -37,7 +53,7 @@ async function refresh({ store, env, fetch, now, refreshToken }) {
     throw new Error(`token exchange failed: ${res.status} ${body}`.trim());
   }
   const json = await res.json();
-  await store.setJSON(STORE_KEY, {
+  await persist(store, {
     refreshToken: json.refresh_token,
     accessToken: json.access_token,
     accessTokenExpiry: now() + (json.expires_in ?? DEFAULT_TTL_S) * 1000,
@@ -49,7 +65,7 @@ async function refresh({ store, env, fetch, now, refreshToken }) {
 // refresh token) only when the cached one is missing or near expiry.
 // deps: { store, env, fetch, now } — injected so this is unit-testable.
 export async function getAccessToken({ store, env, fetch, now = Date.now }) {
-  const state = (await store.get(STORE_KEY, { type: "json" })) || {};
+  const state = (await store.get(STORE_KEY, READ_OPTS)) || {};
   if (isFresh(state, now())) return state.accessToken;
 
   const refreshToken = state.refreshToken || env.WHOOP_REFRESH_TOKEN;
@@ -57,8 +73,9 @@ export async function getAccessToken({ store, env, fetch, now = Date.now }) {
     return await refresh({ store, env, fetch, now, refreshToken });
   } catch (err) {
     // A concurrent request may have rotated the token out from under us
-    // (single-use tokens race). Re-read and reuse if it left a fresh one.
-    const latest = (await store.get(STORE_KEY, { type: "json" })) || {};
+    // (single-use tokens race). Re-read (strongly) and reuse if it left a
+    // fresh one.
+    const latest = (await store.get(STORE_KEY, READ_OPTS)) || {};
     if (isFresh(latest, now())) return latest.accessToken;
     throw err;
   }
