@@ -23,6 +23,38 @@ const itemVariants = {
 const cardFocus =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent";
 
+// Grey ghosts sized to match the featured card (p-5 + 96px art) and the
+// five track rows (p-3 + 40px art) so the swap to real content doesn't shift layout.
+function SkeletonBlock() {
+  return (
+    <div className="animate-pulse" aria-hidden="true">
+      <div className="mb-3 flex items-center gap-5 rounded-xl border border-edge bg-surface p-5">
+        <div className="h-24 w-24 rounded-lg bg-edge" />
+        <div className="min-w-0 flex-1">
+          <div className="h-2.5 w-24 rounded bg-edge" />
+          <div className="mt-3 h-5 w-3/5 rounded bg-edge" />
+          <div className="mt-2.5 h-3 w-2/5 rounded bg-edge" />
+        </div>
+      </div>
+      <div className="space-y-2">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-3 rounded-lg border border-edge bg-surface p-3"
+          >
+            <div className="h-10 w-10 rounded bg-edge" />
+            <div className="min-w-0 flex-1">
+              <div className="h-3.5 w-1/2 rounded bg-edge" />
+              <div className="mt-2 h-3 w-1/3 rounded bg-edge" />
+            </div>
+            <div className="h-3 w-10 rounded bg-edge" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function FeaturedTrack({ track, label }) {
   // color comes from the small thumb (16x16 downsample makes it sufficient);
   // the card displays artLarge — don't "fix" this to extract from artLarge
@@ -126,7 +158,9 @@ export default function SpotifyBlock() {
     if (alt) setFeed(alt[0]);
   }, [failed, feed]);
 
-  if (!cache.recent && !cache.top) return null;
+  const loaded = Boolean(cache.recent || cache.top);
+  // unmount only once both feeds are confirmed unavailable
+  if (!loaded && failed.recent && failed.top) return null;
 
   const list = cache[feed] ?? [];
   const featured = list[0];
@@ -134,7 +168,7 @@ export default function SpotifyBlock() {
   const toggles = FEEDS.filter(([key]) => !failed[key]);
 
   return (
-    <section>
+    <section aria-busy={!loaded}>
       <SectionLabel>
         <span className="flex items-baseline justify-between">
           <span className="-my-1 -ml-2.5 flex gap-1">
@@ -164,35 +198,44 @@ export default function SpotifyBlock() {
         </span>
       </SectionLabel>
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={feed}
-          variants={listVariants}
-          initial="hidden"
-          animate="show"
-          exit="exit"
-        >
-          {featured && (
-            <FeaturedTrack
-              track={featured}
-              label={
-                feed === "top"
-                  ? "#1 This Month"
-                  : featured.playedAt
-                    ? `Last Played · ${relativeTime(featured.playedAt)}`
-                    : "Last Played"
-              }
-            />
-          )}
-          <ul className="space-y-2">
-            {rows.map((t, i) => (
-              <TrackRow
-                key={t.url + (t.playedAt ?? i)}
-                track={t}
-                rank={feed === "top" ? i + 2 : null}
+        {!loaded ? (
+          <motion.div
+            key="skeleton"
+            exit={{ opacity: 0, transition: { duration: 0.15 } }}
+          >
+            <SkeletonBlock />
+          </motion.div>
+        ) : (
+          <motion.div
+            key={feed}
+            variants={listVariants}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+          >
+            {featured && (
+              <FeaturedTrack
+                track={featured}
+                label={
+                  feed === "top"
+                    ? "#1 This Month"
+                    : featured.playedAt
+                      ? `Last Played · ${relativeTime(featured.playedAt)}`
+                      : "Last Played"
+                }
               />
-            ))}
-          </ul>
-        </motion.div>
+            )}
+            <ul className="space-y-2">
+              {rows.map((t, i) => (
+                <TrackRow
+                  key={t.url + (t.playedAt ?? i)}
+                  track={t}
+                  rank={feed === "top" ? i + 2 : null}
+                />
+              ))}
+            </ul>
+          </motion.div>
+        )}
       </AnimatePresence>
     </section>
   );
