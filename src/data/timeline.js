@@ -1,7 +1,7 @@
 export const timeline = [
   {
     company: "Rokt",
-    role: "Software Engineer",
+    role: "Technical Solutions Engineer",
     years: "2025 — now", // confirm start date with Justin
     note: "building for the person on the other end of the request",
     current: true,

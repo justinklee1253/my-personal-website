@@ -1,6 +1,6 @@
 export const profile = {
   name: "justin lee",
-  eyebrow: "software engineer @ rokt · nyc",
+  eyebrow: "technical solutions engineer @ rokt · nyc",
   headline:
     "Backend engineer, building for the person on the other end of the request.",
   bio: "I work on backend systems at Rokt in New York — Boston College CS before that. I care about services that hold up under load and products that respect the person using them. Off the clock: under a barbell chasing a 315 bench, or hunting the city's best bowl of ramen.",
