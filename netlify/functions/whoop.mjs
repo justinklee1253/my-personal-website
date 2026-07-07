@@ -41,14 +41,9 @@ export default async function handler() {
     });
   } catch (err) {
     console.error("whoop function error:", err);
-    // TEMP DIAGNOSTIC: surface the real error in the response so we can curl
-    // it in prod. REVERT this `detail` field once the root cause is found.
-    return new Response(
-      JSON.stringify({ error: "upstream_error", detail: String(err?.message ?? err) }),
-      {
-        status: 502,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({ error: "upstream_error" }), {
+      status: 502,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
