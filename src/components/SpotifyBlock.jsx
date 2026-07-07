@@ -131,6 +131,13 @@ export default function SpotifyBlock() {
   const [feed, setFeed] = useState("recent");
   const [cache, setCache] = useState({});
   const [failed, setFailed] = useState({});
+  // hold the skeleton briefly even on fast responses so it never just flashes
+  const [holding, setHolding] = useState(true);
+
+  useEffect(() => {
+    const t = setTimeout(() => setHolding(false), 450);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -162,13 +169,14 @@ export default function SpotifyBlock() {
   // unmount only once both feeds are confirmed unavailable
   if (!loaded && failed.recent && failed.top) return null;
 
+  const showSkeleton = holding || !loaded;
   const list = cache[feed] ?? [];
   const featured = list[0];
   const rows = list.slice(1);
   const toggles = FEEDS.filter(([key]) => !failed[key]);
 
   return (
-    <section aria-busy={!loaded}>
+    <section aria-busy={showSkeleton}>
       <SectionLabel>
         <span className="flex items-baseline justify-between">
           <span className="-my-1 -ml-2.5 flex gap-1">
@@ -198,7 +206,7 @@ export default function SpotifyBlock() {
         </span>
       </SectionLabel>
       <AnimatePresence mode="wait" initial={false}>
-        {!loaded ? (
+        {showSkeleton ? (
           <motion.div
             key="skeleton"
             exit={{ opacity: 0, transition: { duration: 0.15 } }}
