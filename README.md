@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+# justinlee — personal site
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Dark, minimal, data-driven. Vite + React + Tailwind, deployed on Netlify.
+Design spec: `docs/superpowers/specs/2026-07-06-website-revamp-design.md`.
 
-## Available Scripts
+## Develop
 
-In the project directory, you can run:
+    npm install
+    npm run dev        # app only (Spotify block hides itself)
+    npx netlify dev    # app + Spotify function (needs .env, see .env.example)
+    npm test           # vitest
+    npm run build      # production build to dist/
 
-### `npm start`
+## Updating content
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Everything editable lives in `src/data/`:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `training.js` — append a log entry (newest first) or bump a PR. Tests
+  guard the format: `npm test`.
+- `timeline.js`, `projects.js`, `profile.js` — career, projects, bio, links.
 
-### `npm test`
+## Integrations
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Spotify**: `netlify/functions/spotify.mjs`. One-time setup: create an app
+  at developer.spotify.com (redirect URI `http://127.0.0.1:8888/callback`),
+  run `scripts/spotify-auth.mjs`, put the three `SPOTIFY_*` vars in Netlify.
+- **Cal.com**: set `cal.fifteen` / `cal.thirty` in `src/data/profile.js` to
+  your Cal.com event links (e.g. `justinlee/15min`). Null = mailto fallback.

@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/resumecv.pdf"
+  to = "/Justin_K_Lee_SWE_26_Hire.pdf"
+  status = 301
+
+[[redirects]]
+  from = "/api/spotify"
+  to = "/.netlify/functions/spotify"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
